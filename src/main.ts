@@ -14,29 +14,68 @@ import { BrainCLI } from "./cli/commands.ts";
 const VERSION = "0.1.0";
 
 function showHelp() {
-  console.log(`Brain CLI v${VERSION}
+  console.log(`🧠 Brain CLI v${VERSION} - Context management for developers
 
 USAGE:
     brain <COMMAND> [OPTIONS]
 
 COMMANDS:
-    save <message>     Save current context with your thoughts
-    resume             Show last saved context with AI analysis
-    list [count]       Show recent contexts (default: 5)
-    config             Manage configuration settings
+    save <message>     Capture current context with your thoughts and git analysis
+    resume             Show your last saved context with AI insights
+    list [count]       Show recent contexts (default: 5) 
+    config <action>    Manage configuration settings
+
+COMMAND OPTIONS:
+    save:
+        --no-ai        Skip AI analysis (faster, works offline)
     
-OPTIONS:
-    -h, --help        Show this help message
-    -v, --version     Show version information
-    --no-ai          Skip AI analysis (save only)
+    resume:
+        --raw          Show raw JSON data instead of formatted output
+        --since <time> Show contexts since specific time (not yet implemented)
+    
+    list:
+        --branch <name> Filter contexts by git branch
+    
+    config:
+        set <key> <value>  Set configuration value
+        get <key>          Get configuration value  
+        list               Show all configuration
+
+GLOBAL OPTIONS:
+    -h, --help         Show this help message
+    -v, --version      Show version information
 
 EXAMPLES:
+    # Save your current context
     brain save "debugging auth middleware - tokens expiring randomly"
+    brain save "refactoring user API" --no-ai
+    
+    # Resume your work
     brain resume
+    brain resume --raw
+    
+    # Browse your contexts
+    brain list
     brain list 10
-    brain config set openai-key sk-...
+    brain list --branch feature/auth
+    
+    # Configure Brain
+    brain config set openai-key sk-your-key-here
+    brain config set ai-model gpt-3.5-turbo
+    brain config list
 
-For more information, visit: https://github.com/yourname/brain`);
+SETUP:
+    1. Ensure you're in a git repository
+    2. Set your OpenAI API key: brain config set openai-key sk-...
+    3. Start capturing context: brain save "your current thoughts"
+
+STORAGE:
+    All data is stored locally in ~/.config/brain/
+    - No cloud storage or data sharing
+    - Works completely offline (except AI features)
+
+For more information and updates:
+    https://github.com/anthropics/brain-cli`);
 }
 
 function showVersion() {
@@ -74,6 +113,11 @@ async function main() {
   // Initialize Brain CLI
   const brain = new BrainCLI();
   await brain.initialize();
+  
+  // Check for first-time setup (only for interactive commands)
+  if (["save", "resume", "list"].includes(command)) {
+    await brain.checkFirstTimeSetup();
+  }
 
   switch (command) {
     case "save": {

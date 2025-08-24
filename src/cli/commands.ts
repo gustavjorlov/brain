@@ -52,6 +52,20 @@ export class BrainCLI {
     }
   }
 
+  async checkFirstTimeSetup(): Promise<void> {
+    const config = await this.storage.getConfig();
+    const stats = await this.storage.getStorageStats();
+    
+    // Show welcome message for first-time users
+    if (stats.totalNotes === 0 && !config.openaiApiKey) {
+      console.log("👋 Welcome to Brain CLI!");
+      console.log("   For the best experience, set up your OpenAI API key:");
+      console.log("   brain config set openai-key sk-your-key-here");
+      console.log("   (You can still use Brain without AI - it will save git context only)");
+      console.log("");
+    }
+  }
+
   async saveCommand(message: string, options: { noAi?: boolean } = {}): Promise<void> {
     try {
       // Check if we're in a git repository
@@ -103,9 +117,14 @@ export class BrainCLI {
         if (error.message.includes("not a git repository")) {
           console.error("❌ Error: Not in a git repository");
           console.log("   Brain requires a git repository to analyze context.");
+          console.log("   To get started:");
+          console.log("   1. Navigate to a git repository");
+          console.log("   2. Or initialize one: git init");
+          console.log("   3. Then try: brain save \"your message\"");
           Deno.exit(1);
         } else {
           console.error(`❌ Error saving context: ${error.message}`);
+          console.log("   Try running 'brain --help' for usage information.");
           Deno.exit(1);
         }
       }
@@ -239,7 +258,14 @@ export class BrainCLI {
         case "set":
           if (!key || !value) {
             console.error("❌ Usage: brain config set <key> <value>");
-            console.log("   Available keys: openai-key, max-commits, ai-model, enable-ai");
+            console.log("\n   Available configuration keys:");
+            console.log("   • openai-key     Your OpenAI API key (required for AI features)");
+            console.log("   • max-commits    Number of recent commits to analyze (default: 10)");
+            console.log("   • ai-model       OpenAI model to use (default: gpt-4)");
+            console.log("   • enable-ai      Enable/disable AI analysis (true/false)");
+            console.log("\n   Examples:");
+            console.log("   brain config set openai-key sk-your-key-here");
+            console.log("   brain config set ai-model gpt-3.5-turbo");
             Deno.exit(1);
           }
 
@@ -247,6 +273,12 @@ export class BrainCLI {
           
           switch (key) {
             case "openai-key":
+              if (!value.startsWith("sk-") || value.length < 20) {
+                console.error("❌ Invalid OpenAI API key format");
+                console.log("   OpenAI API keys should start with 'sk-' and be much longer");
+                console.log("   Get your API key from: https://platform.openai.com/api-keys");
+                Deno.exit(1);
+              }
               updates.openaiApiKey = value;
               break;
             case "max-commits":
