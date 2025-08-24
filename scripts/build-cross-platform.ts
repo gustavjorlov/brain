@@ -14,7 +14,7 @@ for (const target of targets) {
   const cmd = new Deno.Command("deno", {
     args: [
       "compile",
-      "--allow-read", "--allow-write", "--allow-run", "--allow-net",
+      "--allow-read", "--allow-write", "--allow-run", "--allow-net", "--allow-env",
       "--target", target.platform,
       "--output", output,
       "src/main.ts"

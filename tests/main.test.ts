@@ -77,30 +77,51 @@ Deno.test("CLI shows error for unknown command", async () => {
   assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
 });
 
-Deno.test("CLI recognizes save command (not implemented)", async () => {
+Deno.test("CLI executes save command successfully", async () => {
   const result = await runCLI(["save", "test message"]);
   
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "🧠 Save command - Not implemented yet");
+  assertStringIncludes(result.stdout, "🧠 Analyzing current context");
+  assertStringIncludes(result.stdout, "✅ Context saved successfully");
 });
 
-Deno.test("CLI recognizes resume command (not implemented)", async () => {
+Deno.test("CLI executes resume command successfully", async () => {
   const result = await runCLI(["resume"]);
   
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "🧠 Resume command - Not implemented yet");
+  // Should show either a saved context or "No previous context found"
+  const hasContext = result.stdout.includes("Last saved:") || result.stdout.includes("No previous context found");
+  assertEquals(hasContext, true);
 });
 
-Deno.test("CLI recognizes list command (not implemented)", async () => {
+Deno.test("CLI executes list command successfully", async () => {
   const result = await runCLI(["list"]);
   
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "🧠 List command - Not implemented yet");
+  // Should show either contexts or "No contexts found"
+  const hasOutput = result.stdout.includes("Recent contexts:") || result.stdout.includes("No contexts found");
+  assertEquals(hasOutput, true);
 });
 
-Deno.test("CLI recognizes config command (not implemented)", async () => {
-  const result = await runCLI(["config"]);
+Deno.test("CLI executes config command successfully", async () => {
+  const result = await runCLI(["config", "list"]);
   
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "🧠 Config command - Not implemented yet");
+  assertStringIncludes(result.stdout, "Current configuration:");
+  assertStringIncludes(result.stdout, "openai-key:");
+  assertStringIncludes(result.stdout, "ai-model:");
+});
+
+Deno.test("CLI shows error for save command without message", async () => {
+  const result = await runCLI(["save"]);
+  
+  assertEquals(result.success, false);
+  assertStringIncludes(result.stderr, "❌ Usage: brain save <message>");
+});
+
+Deno.test("CLI shows error for invalid config command", async () => {
+  const result = await runCLI(["config"]);
+  
+  assertEquals(result.success, false);
+  assertStringIncludes(result.stderr, "❌ Usage: brain config");
 });

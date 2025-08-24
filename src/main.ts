@@ -9,6 +9,7 @@
  */
 
 import { parseArgs } from "@std/cli";
+import { BrainCLI } from "./cli/commands.ts";
 
 const VERSION = "0.1.0";
 
@@ -44,7 +45,8 @@ function showVersion() {
 
 async function main() {
   const args = parseArgs(Deno.args, {
-    boolean: ["help", "version", "no-ai"],
+    boolean: ["help", "version", "no-ai", "raw"],
+    string: ["since", "branch"],
     alias: {
       h: "help",
       v: "version",
@@ -69,19 +71,49 @@ async function main() {
     Deno.exit(1);
   }
 
+  // Initialize Brain CLI
+  const brain = new BrainCLI();
+  await brain.initialize();
+
   switch (command) {
-    case "save":
-      console.log("🧠 Save command - Not implemented yet");
+    case "save": {
+      const message = args._[1]?.toString();
+      if (!message) {
+        console.error("❌ Usage: brain save <message>");
+        console.log("   Example: brain save \"debugging auth middleware - tokens expiring randomly\"");
+        Deno.exit(1);
+      }
+      await brain.saveCommand(message, { noAi: args["no-ai"] });
       break;
+    }
     case "resume":
-      console.log("🧠 Resume command - Not implemented yet");
+      await brain.resumeCommand({ 
+        raw: args.raw, 
+        since: args.since 
+      });
       break;
-    case "list":
-      console.log("🧠 List command - Not implemented yet");
+    case "list": {
+      const count = parseInt(args._[1]?.toString() || "5", 10);
+      if (isNaN(count) || count < 1) {
+        console.error("❌ Count must be a positive number");
+        Deno.exit(1);
+      }
+      await brain.listCommand(count, { branch: args.branch });
       break;
-    case "config":
-      console.log("🧠 Config command - Not implemented yet");
+    }
+    case "config": {
+      const action = args._[1]?.toString();
+      const key = args._[2]?.toString();
+      const value = args._[3]?.toString();
+      
+      if (!action) {
+        console.error("❌ Usage: brain config <set|get|list> [key] [value]");
+        Deno.exit(1);
+      }
+      
+      await brain.configCommand(action, key, value);
       break;
+    }
     default:
       console.error(`❌ Unknown command: ${command}`);
       showHelp();
