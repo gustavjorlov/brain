@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-all src/main.ts",
+    "test": "deno test --allow-all tests/",
+    "build": "deno compile --allow-read --allow-write --allow-run --allow-net --output bin/brain src/main.ts",
+    "build-all": "deno run --allow-all scripts/build-cross-platform.ts",
+    "install": "deno install --allow-read --allow-write --allow-run --allow-net --global --name brain src/main.ts",
+    "uninstall": "deno uninstall brain"
+  },
+  "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.0",
+    "@std/fs": "jsr:@std/fs@^1.0.0",
+    "@std/path": "jsr:@std/path@^1.0.0",
+    "@std/testing": "jsr:@std/testing@^1.0.0"
+  }
+}
