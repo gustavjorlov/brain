@@ -1,0 +1,133 @@
+name: Deploy Brain CLI Website
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/deploy.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Validate HTML
+        run: |
+          # Optional: Add HTML validation
+          echo "Validating HTML structure..."
+          if [ -f "docs/index.html" ]; then
+            echo "✅ index.html found"
+          else
+            echo "❌ index.html not found"
+            exit 1
+          fi
+
+      - name: Check CSS and JS
+        run: |
+          echo "Checking CSS and JavaScript files..."
+          if [ -f "docs/styles.css" ]; then
+            echo "✅ styles.css found"
+          else
+            echo "❌ styles.css not found"
+            exit 1
+          fi
+          
+          if [ -f "docs/script.js" ]; then
+            echo "✅ script.js found"
+          else
+            echo "❌ script.js not found"
+            exit 1
+          fi
+
+      - name: Optimize Images (if any)
+        run: |
+          echo "Checking for images to optimize..."
+          if ls docs/*.png docs/*.jpg docs/*.jpeg docs/*.gif 1> /dev/null 2>&1; then
+            echo "Images found - consider optimization for production"
+          else
+            echo "No images found to optimize"
+          fi
+
+      - name: Build site
+        run: |
+          echo "Preparing site for deployment..."
+          
+          # Create a deployment directory
+          mkdir -p _site
+          
+          # Copy all docs files to deployment directory
+          cp -r docs/* _site/
+          
+          # Add build timestamp
+          echo "<!-- Built on $(date -u) -->" >> _site/index.html
+          
+          # Create robots.txt
+          cat > _site/robots.txt << EOF
+          User-agent: *
+          Allow: /
+          
+          Sitemap: https://anthropics.github.io/brain-cli/sitemap.xml
+          EOF
+          
+          # Create a simple sitemap
+          cat > _site/sitemap.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://anthropics.github.io/brain-cli/</loc>
+              <lastmod>$(date -u +%Y-%m-%d)</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>1.0</priority>
+            </url>
+          </urlset>
+          EOF
+          
+          echo "✅ Site built successfully"
+          ls -la _site/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: success()
+    steps:
+      - name: Deployment Success
+        run: |
+          echo "🚀 Brain CLI website deployed successfully!"
+          echo "📦 Site URL: https://anthropics.github.io/brain-cli/"
+          echo "✨ Deployment completed at $(date -u)"
