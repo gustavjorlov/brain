@@ -77,16 +77,37 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: "2.1.3"
           
+      - name: Validate lockfile compatibility
+        run: |
+          echo "🔍 Validating deno.lock compatibility..."
+          if [ -f "deno.lock" ]; then
+            LOCKFILE_VERSION=$(jq -r '.version' deno.lock)
+            echo "Lockfile version: $LOCKFILE_VERSION"
+            
+            # Deno 2.x uses lockfile version 4
+            if [ "$LOCKFILE_VERSION" != "4" ]; then
+              echo "❌ Error: Lockfile version $LOCKFILE_VERSION is not compatible with Deno 2.x"
+              echo "Expected: version 4"
+              echo "Please regenerate the lockfile with: rm deno.lock && deno cache src/main.ts"
+              exit 1
+            fi
+            
+            echo "✅ Lockfile version is compatible"
+          else
+            echo "⚠️ No lockfile found - dependencies will be downloaded fresh"
+          fi
+        
       - name: Cache Deno dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.deno
             ~/.cache/deno
-          key: ${{ runner.os }}-deno-${{ hashFiles('deno.lock') }}
+          key: ${{ runner.os }}-deno-2.1.3-${{ hashFiles('deno.lock') }}
           restore-keys: |
+            ${{ runner.os }}-deno-2.1.3-
             ${{ runner.os }}-deno-
             
       - name: Run tests
@@ -120,16 +141,37 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: "2.1.3"
           
+      - name: Validate lockfile compatibility
+        run: |
+          echo "🔍 Validating deno.lock compatibility..."
+          if [ -f "deno.lock" ]; then
+            LOCKFILE_VERSION=$(jq -r '.version' deno.lock)
+            echo "Lockfile version: $LOCKFILE_VERSION"
+            
+            # Deno 2.x uses lockfile version 4
+            if [ "$LOCKFILE_VERSION" != "4" ]; then
+              echo "❌ Error: Lockfile version $LOCKFILE_VERSION is not compatible with Deno 2.x"
+              echo "Expected: version 4"
+              echo "Please regenerate the lockfile with: rm deno.lock && deno cache src/main.ts"
+              exit 1
+            fi
+            
+            echo "✅ Lockfile version is compatible"
+          else
+            echo "⚠️ No lockfile found - dependencies will be downloaded fresh"
+          fi
+        
       - name: Cache Deno dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.deno
             ~/.cache/deno
-          key: ${{ runner.os }}-deno-${{ hashFiles('deno.lock') }}
+          key: ${{ runner.os }}-deno-2.1.3-${{ hashFiles('deno.lock') }}
           restore-keys: |
+            ${{ runner.os }}-deno-2.1.3-
             ${{ runner.os }}-deno-
             
       - name: Build binary
