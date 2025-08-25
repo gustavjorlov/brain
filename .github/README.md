@@ -1,16 +1,19 @@
 # GitHub Actions Workflows
 
-This directory contains automated workflows for the Brain CLI project, implementing comprehensive CI/CD practices.
+This directory contains automated workflows for the Brain CLI project,
+implementing comprehensive CI/CD practices.
 
 ## Workflows Overview
 
 ### 1. Release Workflow (`release.yml`)
 
 **Triggers:**
+
 - Push to version tags (e.g., `v1.2.3`, `v1.2.3-beta.1`)
 - Manual dispatch with version input
 
 **Features:**
+
 - ✅ Version validation from `deno.json` and tags
 - ✅ Cross-platform binary builds (Linux, macOS Intel/ARM, Windows)
 - ✅ Automated testing before release
@@ -20,6 +23,7 @@ This directory contains automated workflows for the Brain CLI project, implement
 - ✅ Prerelease detection and handling
 
 **Build Targets:**
+
 - `x86_64-unknown-linux-gnu` → `brain-linux`
 - `x86_64-apple-darwin` → `brain-mac`
 - `aarch64-apple-darwin` → `brain-mac-arm64`
@@ -28,10 +32,12 @@ This directory contains automated workflows for the Brain CLI project, implement
 ### 2. Continuous Integration (`ci.yml`)
 
 **Triggers:**
+
 - Push to `main` and `develop` branches
 - Pull requests to `main` and `develop`
 
 **Features:**
+
 - ✅ Multi-platform testing (Ubuntu, macOS, Windows)
 - ✅ Code formatting checks (`deno fmt`)
 - ✅ Linting (`deno lint`)
@@ -44,9 +50,11 @@ This directory contains automated workflows for the Brain CLI project, implement
 ### 3. Version Bump Workflow (`version-bump.yml`)
 
 **Trigger:**
+
 - Manual dispatch with version type selection
 
 **Features:**
+
 - ✅ Automated semantic versioning
 - ✅ Support for major, minor, patch, and prerelease bumps
 - ✅ Automatic `deno.json` updates
@@ -54,6 +62,7 @@ This directory contains automated workflows for the Brain CLI project, implement
 - ✅ Triggers release workflow automatically
 
 **Version Types:**
+
 - `patch`: 1.2.3 → 1.2.4
 - `minor`: 1.2.3 → 1.3.0
 - `major`: 1.2.3 → 2.0.0
@@ -62,6 +71,7 @@ This directory contains automated workflows for the Brain CLI project, implement
 ### 4. Dependabot Configuration (`dependabot.yml`)
 
 **Features:**
+
 - ✅ Weekly GitHub Actions dependency updates
 - ✅ Weekly Deno dependency monitoring
 - ✅ Automatic PR creation with proper commit messages
@@ -72,6 +82,7 @@ This directory contains automated workflows for the Brain CLI project, implement
 ### Creating a Release
 
 #### Method 1: Tag-based Release (Recommended)
+
 1. Update the version in `deno.json`:
    ```json
    {
@@ -92,6 +103,7 @@ This directory contains automated workflows for the Brain CLI project, implement
    - Create a GitHub release with assets
 
 #### Method 2: Version Bump Workflow
+
 1. Go to GitHub Actions → Version Bump → Run workflow
 2. Select the version bump type (patch/minor/major/prerelease)
 3. The workflow will:
@@ -100,6 +112,7 @@ This directory contains automated workflows for the Brain CLI project, implement
    - Trigger the release workflow automatically
 
 #### Method 3: Manual Release
+
 1. Go to GitHub Actions → Release → Run workflow
 2. Enter the version (e.g., `v1.2.3`)
 3. The workflow will create a release with that version
@@ -107,8 +120,9 @@ This directory contains automated workflows for the Brain CLI project, implement
 ### Prerelease Support
 
 The workflows fully support prerelease versions:
+
 - `v1.2.3-beta.1` - Beta prerelease
-- `v1.2.3-alpha.2` - Alpha prerelease  
+- `v1.2.3-alpha.2` - Alpha prerelease
 - `v1.2.3-rc.1` - Release candidate
 
 Prereleases are automatically marked as "prerelease" in GitHub releases.
@@ -124,7 +138,8 @@ Prereleases are automatically marked as "prerelease" in GitHub releases.
 
 - **Dependency Caching**: Deno dependencies cached across workflow runs
 - **Parallel Builds**: Cross-platform builds run in parallel
-- **Fail-Fast Strategy**: Disabled to ensure all platforms build even if one fails
+- **Fail-Fast Strategy**: Disabled to ensure all platforms build even if one
+  fails
 - **Artifact Cleanup**: Build artifacts automatically cleaned up after 7 days
 
 ## Customization
@@ -143,7 +158,8 @@ matrix:
 
 ### Updating Release Notes Template
 
-Modify the release notes generation in `release.yml` under the "Generate release notes" step.
+Modify the release notes generation in `release.yml` under the "Generate release
+notes" step.
 
 ### Adding New Workflows
 
@@ -159,14 +175,17 @@ Modify the release notes generation in `release.yml` under the "Generate release
 ### Common Issues
 
 **Build Failures:**
+
 - Check Deno compatibility with target platforms
 - Verify all dependencies are available for cross-compilation
 
 **Version Conflicts:**
+
 - Ensure `deno.json` version matches git tags
 - Use the version bump workflow to maintain consistency
 
 **Permission Errors:**
+
 - Verify repository settings allow GitHub Actions
 - Check that `GITHUB_TOKEN` has necessary permissions
 
@@ -181,9 +200,9 @@ Modify the release notes generation in `release.yml` under the "Generate release
 
 ## Best Practices Implemented
 
-✅ **Security**: Minimal permissions, dependency scanning, secure token usage
-✅ **Performance**: Caching, parallel execution, optimized artifact handling  
+✅ **Security**: Minimal permissions, dependency scanning, secure token usage ✅
+**Performance**: Caching, parallel execution, optimized artifact handling\
 ✅ **Reliability**: Comprehensive testing, error handling, rollback capabilities
 ✅ **Maintainability**: Clear documentation, consistent naming, modular design
-✅ **Automation**: Minimal manual intervention, automated version management
-✅ **Monitoring**: Test reporting, security alerts, dependency updates
+✅ **Automation**: Minimal manual intervention, automated version management ✅
+**Monitoring**: Test reporting, security alerts, dependency updates

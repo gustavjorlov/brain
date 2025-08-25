@@ -1,6 +1,6 @@
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
-import type { WorkNote, BrainConfig } from "./models.ts";
+import type { BrainConfig, WorkNote } from "./models.ts";
 
 interface StoredData {
   workNotes: Record<string, WorkNote>;
@@ -49,10 +49,10 @@ export class Storage {
 
   private async saveConfig(): Promise<void> {
     if (!this.config) return;
-    
+
     await Deno.writeTextFile(
       this.configPath,
-      JSON.stringify(this.config, null, 2)
+      JSON.stringify(this.config, null, 2),
     );
   }
 
@@ -70,7 +70,7 @@ export class Storage {
   private async saveData(): Promise<void> {
     await Deno.writeTextFile(
       this.dataPath,
-      JSON.stringify(this.data, null, 2)
+      JSON.stringify(this.data, null, 2),
     );
   }
 
@@ -102,37 +102,43 @@ export class Storage {
 
   async getLatestWorkNote(): Promise<WorkNote | null> {
     const workNotes = Object.values(this.data.workNotes);
-    
+
     if (workNotes.length === 0) {
       return null;
     }
 
     // Sort by timestamp (newest first)
-    workNotes.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    
+    workNotes.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
     return { ...workNotes[0] };
   }
 
   async getRecentWorkNotes(limit: number = 5): Promise<WorkNote[]> {
     const workNotes = Object.values(this.data.workNotes);
-    
+
     if (workNotes.length === 0) {
       return [];
     }
 
     // Sort by timestamp (newest first) and limit results
-    workNotes.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    
-    return workNotes.slice(0, limit).map(note => ({ ...note }));
+    workNotes.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    return workNotes.slice(0, limit).map((note) => ({ ...note }));
   }
 
   async getAllWorkNotes(): Promise<WorkNote[]> {
     const workNotes = Object.values(this.data.workNotes);
-    
+
     // Sort by timestamp (newest first)
-    workNotes.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    
-    return workNotes.map(note => ({ ...note }));
+    workNotes.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    return workNotes.map((note) => ({ ...note }));
   }
 
   async deleteWorkNote(id: string): Promise<boolean> {
@@ -146,15 +152,17 @@ export class Storage {
 
   async getWorkNotesByBranch(branch: string): Promise<WorkNote[]> {
     const workNotes = Object.values(this.data.workNotes);
-    
-    const branchNotes = workNotes.filter(note => 
+
+    const branchNotes = workNotes.filter((note) =>
       note.gitContext.currentBranch === branch
     );
 
     // Sort by timestamp (newest first)
-    branchNotes.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    
-    return branchNotes.map(note => ({ ...note }));
+    branchNotes.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    return branchNotes.map((note) => ({ ...note }));
   }
 
   async getStorageStats(): Promise<{
@@ -164,7 +172,7 @@ export class Storage {
     newestNote: string | null;
   }> {
     const workNotes = Object.values(this.data.workNotes);
-    
+
     let storageSize = 0;
     try {
       const configStat = await Deno.stat(this.configPath);
@@ -179,17 +187,19 @@ export class Storage {
         totalNotes: 0,
         storageSize,
         oldestNote: null,
-        newestNote: null
+        newestNote: null,
       };
     }
 
-    workNotes.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-    
+    workNotes.sort((a, b) =>
+      new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    );
+
     return {
       totalNotes: workNotes.length,
       storageSize,
       oldestNote: workNotes[0].timestamp,
-      newestNote: workNotes[workNotes.length - 1].timestamp
+      newestNote: workNotes[workNotes.length - 1].timestamp,
     };
   }
 }

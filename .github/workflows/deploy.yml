@@ -2,14 +2,14 @@ name: Deploy Brain CLI Website
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'docs/**'
-      - '.github/workflows/deploy.yml'
+      - "docs/**"
+      - ".github/workflows/deploy.yml"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'docs/**'
+      - "docs/**"
   workflow_dispatch:
 
 permissions:
@@ -51,7 +51,7 @@ jobs:
             echo "❌ styles.css not found"
             exit 1
           fi
-          
+
           if [ -f "docs/script.js" ]; then
             echo "✅ script.js found"
           else
@@ -71,24 +71,24 @@ jobs:
       - name: Build site
         run: |
           echo "Preparing site for deployment..."
-          
+
           # Create a deployment directory
           mkdir -p _site
-          
+
           # Copy all docs files to deployment directory
           cp -r docs/* _site/
-          
+
           # Add build timestamp
           echo "<!-- Built on $(date -u) -->" >> _site/index.html
-          
+
           # Create robots.txt
           cat > _site/robots.txt << EOF
           User-agent: *
           Allow: /
-          
+
           Sitemap: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/sitemap.xml
           EOF
-          
+
           # Create a simple sitemap
           cat > _site/sitemap.xml << EOF
           <?xml version="1.0" encoding="UTF-8"?>
@@ -101,7 +101,7 @@ jobs:
             </url>
           </urlset>
           EOF
-          
+
           echo "✅ Site built successfully"
           ls -la _site/
 

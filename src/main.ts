@@ -2,7 +2,7 @@
 
 /**
  * Brain CLI - Context management for developers
- * 
+ *
  * Captures your current thoughts along with git activity,
  * uses AI to interpret the technical context, and helps
  * you seamlessly resume where you left off.
@@ -113,7 +113,7 @@ async function main() {
   // Initialize Brain CLI
   const brain = new BrainCLI();
   await brain.initialize();
-  
+
   // Check for first-time setup (only for interactive commands)
   if (["save", "resume", "list"].includes(command)) {
     await brain.checkFirstTimeSetup();
@@ -124,16 +124,18 @@ async function main() {
       const message = args._[1]?.toString();
       if (!message) {
         console.error("❌ Usage: brain save <message>");
-        console.log("   Example: brain save \"debugging auth middleware - tokens expiring randomly\"");
+        console.log(
+          '   Example: brain save "debugging auth middleware - tokens expiring randomly"',
+        );
         Deno.exit(1);
       }
       await brain.saveCommand(message, { noAi: args["no-ai"] });
       break;
     }
     case "resume":
-      await brain.resumeCommand({ 
-        raw: args.raw, 
-        since: args.since 
+      await brain.resumeCommand({
+        raw: args.raw,
+        since: args.since,
       });
       break;
     case "list": {
@@ -149,12 +151,12 @@ async function main() {
       const action = args._[1]?.toString();
       const key = args._[2]?.toString();
       const value = args._[3]?.toString();
-      
+
       if (!action) {
         console.error("❌ Usage: brain config <set|get|list> [key] [value]");
         Deno.exit(1);
       }
-      
+
       await brain.configCommand(action, key, value);
       break;
     }

@@ -14,16 +14,22 @@ for (const target of targets) {
   const cmd = new Deno.Command("deno", {
     args: [
       "compile",
-      "--allow-read", "--allow-write", "--allow-run", "--allow-net", "--allow-env",
-      "--target", target.platform,
-      "--output", output,
-      "src/main.ts"
+      "--allow-read",
+      "--allow-write",
+      "--allow-run",
+      "--allow-net",
+      "--allow-env",
+      "--target",
+      target.platform,
+      "--output",
+      output,
+      "src/main.ts",
     ],
   });
-  
+
   console.log(`Building for ${target.platform}...`);
   const result = await cmd.output();
-  
+
   if (result.success) {
     console.log(`✅ Built ${output}`);
   } else {

@@ -1,383 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brain CLI - Context Management for Developers</title>
-    <meta name="description" content="Never lose your coding context again. Brain CLI captures your thoughts + git activity, uses AI for insights, and helps you resume exactly where you left off.">
-    
+    <meta
+      name="description"
+      content="Never lose your coding context again. Brain CLI captures your thoughts + git activity, uses AI for insights, and helps you resume exactly where you left off."
+    >
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://brain-cli.dev/">
-    <meta property="og:title" content="Brain CLI - Context Management for Developers">
-    <meta property="og:description" content="Never lose your coding context again. Perfect for developers with busy family lives.">
-    <meta property="og:image" content="https://brain-cli.dev/brain-cli-social.png">
-    
+    <meta
+      property="og:title"
+      content="Brain CLI - Context Management for Developers"
+    >
+    <meta
+      property="og:description"
+      content="Never lose your coding context again. Perfect for developers with busy family lives."
+    >
+    <meta
+      property="og:image"
+      content="https://brain-cli.dev/brain-cli-social.png"
+    >
+
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
-    
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>"
+    >
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    >
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Main Container -->
     <main class="main-container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-badge">
-                    <span>🎉 v0.1.0 now available</span>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-badge">
+            <span>🎉 v0.1.0 now available</span>
+          </div>
+          <h1 class="hero-title">
+            Never lose your <span class="gradient-text">coding context</span>
+            again
+          </h1>
+          <p class="hero-description">
+            Brain CLI captures your thoughts + git activity, uses AI for
+            insights, and helps you resume exactly where you left off. Perfect
+            for developers with busy family lives.
+          </p>
+          <div class="hero-buttons">
+            <a href="#install" class="primary-button">
+              <span>Download Brain CLI</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/gustavjorlov/brain"
+              class="secondary-button"
+              target="_blank"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Content Grid -->
+      <section class="main-grid">
+        <div class="container">
+          <div class="grid-layout">
+            <!-- Left Column -->
+            <div class="left-column">
+              <!-- Selling Points Section -->
+              <section class="selling-points">
+                <h2>Why Brain CLI?</h2>
+                <div class="selling-point">
+                  <div class="selling-point-content">
+                    <div class="card-icon">😩</div>
+                    <h3>The Problem</h3>
+                    <p>
+                      You're debugging auth middleware timing issues, your
+                      6-year-old needs help, and when you return to your code 2
+                      hours later, you've completely forgotten your debugging
+                      strategy and current theories about the bug.
+                    </p>
+                  </div>
                 </div>
-                <h1 class="hero-title">
-                    Never lose your <span class="gradient-text">coding context</span> again
-                </h1>
-                <p class="hero-description">
-                    Brain CLI captures your thoughts + git activity, uses AI for insights, and helps you resume exactly where you left off. Perfect for developers with busy family lives.
+                <div class="selling-point">
+                  <div class="selling-point-content">
+                    <div class="card-icon">🧠</div>
+                    <h3>The Solution</h3>
+                    <p>
+                      Brain captures your thoughts + recent git activity, uses
+                      AI to understand your context, and shows you exactly where
+                      you left off with smart suggestions for what to try next.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Core Commands Section -->
+              <section id="features" class="core-commands">
+                <h2>Core Commands</h2>
+                <p class="section-description">
+                  Four simple commands to never lose context again
                 </p>
-                <div class="hero-buttons">
-                    <a href="#install" class="primary-button">
-                        <span>Download Brain CLI</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                    </a>
-                    <a href="https://github.com/gustavjorlov/brain" class="secondary-button" target="_blank">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        <span>View on GitHub</span>
-                    </a>
+
+                <div class="commands-grid">
+                  <div class="command-item">
+                    <div class="command-header">
+                      <span class="command-name">brain save</span>
+                      <span class="command-description"
+                      >Capture current context</span>
+                    </div>
+                    <div class="command-example">
+                      <code>brain save "debugging auth middleware - tokens
+                        expiring randomly"</code>
+                    </div>
+                    <div class="command-details">
+                      <span class="feature-tag">🔍 Git Analysis</span>
+                      <span class="feature-tag">🤖 AI Insights</span>
+                      <span class="feature-tag">💾 Local Storage</span>
+                    </div>
+                  </div>
+
+                  <div class="command-item">
+                    <div class="command-header">
+                      <span class="command-name">brain resume</span>
+                      <span class="command-description"
+                      >Show last context with AI analysis</span>
+                    </div>
+                    <div class="command-example">
+                      <code>brain resume</code>
+                    </div>
+                    <div class="command-details">
+                      <span class="feature-tag">💭 Your thoughts</span>
+                      <span class="feature-tag">🎯 Suggested steps</span>
+                      <span class="feature-tag">📊 Git status</span>
+                    </div>
+                  </div>
+
+                  <div class="command-item">
+                    <div class="command-header">
+                      <span class="command-name">brain list</span>
+                      <span class="command-description"
+                      >View recent context history</span>
+                    </div>
+                    <div class="command-example">
+                      <code>brain list 10</code>
+                    </div>
+                    <div class="command-details">
+                      <span class="feature-tag">📅 Timestamps</span>
+                      <span class="feature-tag">🌿 Branch filtering</span>
+                      <span class="feature-tag">🔍 Context search</span>
+                    </div>
+                  </div>
+
+                  <div class="command-item">
+                    <div class="command-header">
+                      <span class="command-name">brain config</span>
+                      <span class="command-description"
+                      >Manage settings and API keys</span>
+                    </div>
+                    <div class="command-example">
+                      <code>brain config set openai-key sk-...</code>
+                    </div>
+                    <div class="command-details">
+                      <span class="feature-tag">🔐 API keys</span>
+                      <span class="feature-tag">⚙️ Settings</span>
+                      <span class="feature-tag">🔒 Secure storage</span>
+                    </div>
+                  </div>
                 </div>
+              </section>
             </div>
-        </section>
 
-        <!-- Main Content Grid -->
-        <section class="main-grid">
-            <div class="container">
-                <div class="grid-layout">
-                    <!-- Left Column -->
-                    <div class="left-column">
-                        <!-- Selling Points Section -->
-                        <section class="selling-points">
-                            <h2>Why Brain CLI?</h2>
-                            <div class="selling-point">
-                                <div class="selling-point-content">
-                                    <div class="card-icon">😩</div>
-                                    <h3>The Problem</h3>
-                                    <p>You're debugging auth middleware timing issues, your 6-year-old needs help, and when you return to your code 2 hours later, you've completely forgotten your debugging strategy and current theories about the bug.</p>
-                                </div>
-                            </div>
-                            <div class="selling-point">
-                                <div class="selling-point-content">
-                                    <div class="card-icon">🧠</div>
-                                    <h3>The Solution</h3>
-                                    <p>Brain captures your thoughts + recent git activity, uses AI to understand your context, and shows you exactly where you left off with smart suggestions for what to try next.</p>
-                                </div>
-                            </div>
-                        </section>
+            <!-- Right Column -->
+            <div class="right-column">
+              <!-- Quick Start Section -->
+              <section class="quick-start">
+                <h2>Quick Start</h2>
+                <p class="section-description">
+                  Get context management in 3 simple steps
+                </p>
 
-                        <!-- Core Commands Section -->
-                        <section id="features" class="core-commands">
-                            <h2>Core Commands</h2>
-                            <p class="section-description">Four simple commands to never lose context again</p>
-                            
-                            <div class="commands-grid">
-                                <div class="command-item">
-                                    <div class="command-header">
-                                        <span class="command-name">brain save</span>
-                                        <span class="command-description">Capture current context</span>
-                                    </div>
-                                    <div class="command-example">
-                                        <code>brain save "debugging auth middleware - tokens expiring randomly"</code>
-                                    </div>
-                                    <div class="command-details">
-                                        <span class="feature-tag">🔍 Git Analysis</span>
-                                        <span class="feature-tag">🤖 AI Insights</span>
-                                        <span class="feature-tag">💾 Local Storage</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="command-item">
-                                    <div class="command-header">
-                                        <span class="command-name">brain resume</span>
-                                        <span class="command-description">Show last context with AI analysis</span>
-                                    </div>
-                                    <div class="command-example">
-                                        <code>brain resume</code>
-                                    </div>
-                                    <div class="command-details">
-                                        <span class="feature-tag">💭 Your thoughts</span>
-                                        <span class="feature-tag">🎯 Suggested steps</span>
-                                        <span class="feature-tag">📊 Git status</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="command-item">
-                                    <div class="command-header">
-                                        <span class="command-name">brain list</span>
-                                        <span class="command-description">View recent context history</span>
-                                    </div>
-                                    <div class="command-example">
-                                        <code>brain list 10</code>
-                                    </div>
-                                    <div class="command-details">
-                                        <span class="feature-tag">📅 Timestamps</span>
-                                        <span class="feature-tag">🌿 Branch filtering</span>
-                                        <span class="feature-tag">🔍 Context search</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="command-item">
-                                    <div class="command-header">
-                                        <span class="command-name">brain config</span>
-                                        <span class="command-description">Manage settings and API keys</span>
-                                    </div>
-                                    <div class="command-example">
-                                        <code>brain config set openai-key sk-...</code>
-                                    </div>
-                                    <div class="command-details">
-                                        <span class="feature-tag">🔐 API keys</span>
-                                        <span class="feature-tag">⚙️ Settings</span>
-                                        <span class="feature-tag">🔒 Secure storage</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                <div class="steps">
+                  <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                      <h3>Navigate to a git repository</h3>
+                      <div class="code-block">
+                        <code>cd your-project</code>
+                      </div>
                     </div>
+                  </div>
 
-                    <!-- Right Column -->
-                    <div class="right-column">
-                        <!-- Quick Start Section -->
-                        <section class="quick-start">
-                            <h2>Quick Start</h2>
-                            <p class="section-description">Get context management in 3 simple steps</p>
-                            
-                            <div class="steps">
-                                <div class="step">
-                                    <div class="step-number">1</div>
-                                    <div class="step-content">
-                                        <h3>Navigate to a git repository</h3>
-                                        <div class="code-block">
-                                            <code>cd your-project</code>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="step">
-                                    <div class="step-number">2</div>
-                                    <div class="step-content">
-                                        <h3>Set up your OpenAI API key (optional)</h3>
-                                        <div class="code-block">
-                                            <code>brain config set openai-key sk-your-key-here</code>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="step">
-                                    <div class="step-number">3</div>
-                                    <div class="step-content">
-                                        <h3>Start capturing context</h3>
-                                        <div class="code-block">
-                                            <code>brain save "debugging user authentication flow"</code>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="next-time">
-                                <h4>When you return later:</h4>
-                                <div class="code-block">
-                                    <code>brain resume</code>
-                                </div>
-                                <p>Shows your thoughts + AI analysis + suggested next steps</p>
-                            </div>
-                        </section>
-
-                        <!-- Terminal Demo -->
-                        <section class="demo">
-                            <div class="terminal">
-                                <div class="terminal-header">
-                                    <div class="terminal-buttons">
-                                        <div class="terminal-button close"></div>
-                                        <div class="terminal-button minimize"></div>
-                                        <div class="terminal-button maximize"></div>
-                                    </div>
-                                    <div class="terminal-title">Brain CLI Demo</div>
-                                </div>
-                                <div class="terminal-content">
-                                    <div class="command-line">
-                                        <span class="prompt">$ </span>
-                                        <span class="command typed-text" data-text="brain save 'debugging auth middleware - tokens expiring randomly'"></span>
-                                    </div>
-                                    <div class="output">
-                                        <div class="output-line">🧠 Analyzing current context...</div>
-                                        <div class="output-line">🤖 Getting AI analysis...</div>
-                                        <div class="output-line">✅ Context saved successfully</div>
-                                        <div class="output-line">   Branch: feature/auth-improvements</div>
-                                        <div class="output-line">   Recent commits: 10</div>
-                                        <div class="output-line">   AI analysis: ✅ (confidence: 89%)</div>
-                                    </div>
-                                    <div class="command-line">
-                                        <span class="prompt">$ </span>
-                                        <span class="command typed-text" data-text="brain resume" data-delay="3000"></span>
-                                    </div>
-                                    <div class="output resume-output">
-                                        <div class="output-line">🧠 Last saved: 2 hours ago on feature/auth-improvements</div>
-                                        <div class="output-line"></div>
-                                        <div class="output-line">💭 Your thoughts: "debugging auth middleware - tokens expiring randomly"</div>
-                                        <div class="output-line"></div>
-                                        <div class="output-line">🤖 AI Analysis:</div>
-                                        <div class="output-line">   Working on authentication flow issues with token expiry</div>
-                                        <div class="output-line"></div>
-                                        <div class="output-line">🎯 Suggested Next Steps:</div>
-                                        <div class="output-line">   1. Check token expiry configuration in config/jwt.js</div>
-                                        <div class="output-line">   2. Review async/await handling in middleware</div>
-                                        <div class="output-line">   3. Add timing logs to track token lifecycle</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                  <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                      <h3>Set up your OpenAI API key (optional)</h3>
+                      <div class="code-block">
+                        <code>brain config set openai-key sk-your-key-here</code
+                        >
+                      </div>
                     </div>
+                  </div>
+
+                  <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                      <h3>Start capturing context</h3>
+                      <div class="code-block">
+                        <code>brain save "debugging user authentication
+                          flow"</code>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+                <div class="next-time">
+                  <h4>When you return later:</h4>
+                  <div class="code-block">
+                    <code>brain resume</code>
+                  </div>
+                  <p>
+                    Shows your thoughts + AI analysis + suggested next steps
+                  </p>
+                </div>
+              </section>
+
+              <!-- Terminal Demo -->
+              <section class="demo">
+                <div class="terminal">
+                  <div class="terminal-header">
+                    <div class="terminal-buttons">
+                      <div class="terminal-button close"></div>
+                      <div class="terminal-button minimize"></div>
+                      <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">Brain CLI Demo</div>
+                  </div>
+                  <div class="terminal-content">
+                    <div class="command-line">
+                      <span class="prompt">$ </span>
+                      <span
+                        class="command typed-text"
+                        data-text="brain save 'debugging auth middleware - tokens expiring randomly'"
+                      ></span>
+                    </div>
+                    <div class="output">
+                      <div class="output-line">
+                        🧠 Analyzing current context...
+                      </div>
+                      <div class="output-line">🤖 Getting AI analysis...</div>
+                      <div class="output-line">
+                        ✅ Context saved successfully
+                      </div>
+                      <div class="output-line">
+                        Branch: feature/auth-improvements
+                      </div>
+                      <div class="output-line">Recent commits: 10</div>
+                      <div class="output-line">
+                        AI analysis: ✅ (confidence: 89%)
+                      </div>
+                    </div>
+                    <div class="command-line">
+                      <span class="prompt">$ </span>
+                      <span
+                        class="command typed-text"
+                        data-text="brain resume"
+                        data-delay="3000"
+                      ></span>
+                    </div>
+                    <div class="output resume-output">
+                      <div class="output-line">
+                        🧠 Last saved: 2 hours ago on feature/auth-improvements
+                      </div>
+                      <div class="output-line"></div>
+                      <div class="output-line">
+                        💭 Your thoughts: "debugging auth middleware - tokens
+                        expiring randomly"
+                      </div>
+                      <div class="output-line"></div>
+                      <div class="output-line">🤖 AI Analysis:</div>
+                      <div class="output-line">
+                        Working on authentication flow issues with token expiry
+                      </div>
+                      <div class="output-line"></div>
+                      <div class="output-line">🎯 Suggested Next Steps:</div>
+                      <div class="output-line">
+                        1. Check token expiry configuration in config/jwt.js
+                      </div>
+                      <div class="output-line">
+                        2. Review async/await handling in middleware
+                      </div>
+                      <div class="output-line">
+                        3. Add timing logs to track token lifecycle
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- Installation Section -->
-        <section id="install" class="installation">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Install Brain CLI</h2>
-                    <p>Get up and running in 30 seconds</p>
+      <!-- Installation Section -->
+      <section id="install" class="installation">
+        <div class="container">
+          <div class="section-header">
+            <h2>Install Brain CLI</h2>
+            <p>Get up and running in 30 seconds</p>
+          </div>
+
+          <!-- Installation Options -->
+          <div class="install-section">
+            <div class="install-options">
+              <div class="install-option">
+                <h4>Intel Macs</h4>
+                <div class="code-block">
+                  <button
+                    class="copy-btn"
+                    data-copy="curl -L https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac -o brain && chmod +x brain && sudo mv brain /usr/local/bin/"
+                  >
+                    📋 Copy
+                  </button>
+                  <code>curl -L
+                    https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac
+                    -o brain && chmod +x brain && sudo mv brain
+                    /usr/local/bin/</code>
                 </div>
-                
-                <!-- Installation Options -->
-                <div class="install-section">
-                    <div class="install-options">
-                        <div class="install-option">
-                            <h4>Intel Macs</h4>
-                            <div class="code-block">
-                                <button class="copy-btn" data-copy="curl -L https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac -o brain && chmod +x brain && sudo mv brain /usr/local/bin/">
-                                    📋 Copy
-                                </button>
-                                <code>curl -L https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac -o brain && chmod +x brain && sudo mv brain /usr/local/bin/</code>
-                            </div>
-                        </div>
-                        <div class="install-option">
-                            <h4>Apple Silicon Macs</h4>
-                            <div class="code-block">
-                                <button class="copy-btn" data-copy="curl -L https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac-arm64 -o brain && chmod +x brain && sudo mv brain /usr/local/bin/">
-                                    📋 Copy
-                                </button>
-                                <code>curl -L https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac-arm64 -o brain && chmod +x brain && sudo mv brain /usr/local/bin/</code>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+              <div class="install-option">
+                <h4>Apple Silicon Macs</h4>
+                <div class="code-block">
+                  <button
+                    class="copy-btn"
+                    data-copy="curl -L https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac-arm64 -o brain && chmod +x brain && sudo mv brain /usr/local/bin/"
+                  >
+                    📋 Copy
+                  </button>
+                  <code>curl -L
+                    https://github.com/gustavjorlov/brain/releases/latest/download/brain-mac-arm64
+                    -o brain && chmod +x brain && sudo mv brain
+                    /usr/local/bin/</code>
                 </div>
-                
-                <!-- Quick Start Steps -->
-                <div class="quick-start-steps">
-                    <h3>Quick Start</h3>
-                    <p class="section-description">Get context management in 3 simple steps</p>
-                    
-                    <div class="steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>Navigate to a git repository</h4>
-                                <div class="code-block">
-                                    <code>cd your-project</code>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Set up your OpenAI API key (optional)</h4>
-                                <div class="code-block">
-                                    <code>brain config set openai-key sk-your-key-here</code>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>Start capturing context</h4>
-                                <div class="code-block">
-                                    <code>brain save "debugging user authentication flow"</code>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="next-time">
-                        <h4>When you return later:</h4>
-                        <div class="code-block">
-                            <code>brain resume</code>
-                        </div>
-                        <p>Shows your thoughts + AI analysis + suggested next steps</p>
-                    </div>
-                </div>
-                
-                <!-- Verify Installation -->
-                <div class="verify-install">
-                    <h4>Verify Installation</h4>
-                    <div class="code-block">
-                        <button class="copy-btn" data-copy="brain --version && brain --help">
-                            📋 Copy
-                        </button>
-                        <code>brain --version && brain --help</code>
-                    </div>
-                </div>
+              </div>
             </div>
-        </section>
+          </div>
+
+          <!-- Quick Start Steps -->
+          <div class="quick-start-steps">
+            <h3>Quick Start</h3>
+            <p class="section-description">
+              Get context management in 3 simple steps
+            </p>
+
+            <div class="steps">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Navigate to a git repository</h4>
+                  <div class="code-block">
+                    <code>cd your-project</code>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Set up your OpenAI API key (optional)</h4>
+                  <div class="code-block">
+                    <code>brain config set openai-key sk-your-key-here</code>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Start capturing context</h4>
+                  <div class="code-block">
+                    <code>brain save "debugging user authentication flow"</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="next-time">
+              <h4>When you return later:</h4>
+              <div class="code-block">
+                <code>brain resume</code>
+              </div>
+              <p>Shows your thoughts + AI analysis + suggested next steps</p>
+            </div>
+          </div>
+
+          <!-- Verify Installation -->
+          <div class="verify-install">
+            <h4>Verify Installation</h4>
+            <div class="code-block">
+              <button
+                class="copy-btn"
+                data-copy="brain --version && brain --help"
+              >
+                📋 Copy
+              </button>
+              <code>brain --version && brain --help</code>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="brand">
-                        <span class="brain-emoji">🧠</span>
-                        <span class="brand-text">Brain CLI</span>
-                    </div>
-                    <p>Context management for developers</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-section">
-                        <h4>Product</h4>
-                        <a href="#features">Features</a>
-                        <a href="#install">Install</a>
-                        <a href="https://github.com/gustavjorlov/brain/releases">Releases</a>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Docs</h4>
-                        <a href="https://github.com/gustavjorlov/brain#readme">Documentation</a>
-                        <a href="https://github.com/gustavjorlov/brain#quick-start">Quick Start</a>
-                        <a href="https://github.com/gustavjorlov/brain#troubleshooting">Troubleshooting</a>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Community</h4>
-                        <a href="https://github.com/gustavjorlov/brain">GitHub</a>
-                        <a href="https://github.com/gustavjorlov/brain/issues">Issues</a>
-                        <a href="https://github.com/gustavjorlov/brain/discussions">Discussions</a>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="brand">
+              <span class="brain-emoji">🧠</span>
+              <span class="brand-text">Brain CLI</span>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Brain CLI. MIT License.</p>
+            <p>Context management for developers</p>
+          </div>
+          <div class="footer-links">
+            <div class="footer-section">
+              <h4>Product</h4>
+              <a href="#features">Features</a>
+              <a href="#install">Install</a>
+              <a href="https://github.com/gustavjorlov/brain/releases"
+              >Releases</a>
             </div>
+            <div class="footer-section">
+              <h4>Docs</h4>
+              <a href="https://github.com/gustavjorlov/brain#readme"
+              >Documentation</a>
+              <a href="https://github.com/gustavjorlov/brain#quick-start"
+              >Quick Start</a>
+              <a href="https://github.com/gustavjorlov/brain#troubleshooting"
+              >Troubleshooting</a>
+            </div>
+            <div class="footer-section">
+              <h4>Community</h4>
+              <a href="https://github.com/gustavjorlov/brain">GitHub</a>
+              <a href="https://github.com/gustavjorlov/brain/issues">Issues</a>
+              <a href="https://github.com/gustavjorlov/brain/discussions"
+              >Discussions</a>
+            </div>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Brain CLI. MIT License.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Scripts -->
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

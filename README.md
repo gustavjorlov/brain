@@ -2,11 +2,15 @@
 
 **Context management for developers with busy family lives.**
 
-Brain CLI solves the context-switching problem by capturing your current thoughts along with git activity, using AI to interpret the technical context, and helping you seamlessly resume where you left off—even hours or days later.
+Brain CLI solves the context-switching problem by capturing your current
+thoughts along with git activity, using AI to interpret the technical context,
+and helping you seamlessly resume where you left off—even hours or days later.
 
 ## The Problem
 
-You're debugging auth middleware timing issues, your 6-year-old needs help, and when you return to your code 2 hours later, you've completely forgotten your debugging strategy and current theories about the bug.
+You're debugging auth middleware timing issues, your 6-year-old needs help, and
+when you return to your code 2 hours later, you've completely forgotten your
+debugging strategy and current theories about the bug.
 
 ## The Solution
 
@@ -87,6 +91,7 @@ brain save "stuck on async race condition in payment flow" --no-ai
 ```
 
 **What it captures:**
+
 - Your message with timestamp
 - Current git branch and recent commits
 - Working directory status (staged/unstaged/untracked files)
@@ -102,6 +107,7 @@ brain resume --raw  # Show raw JSON data
 ```
 
 **Example output:**
+
 ```
 🧠 Last saved: 2 hours ago on feature/auth-improvements
 
@@ -158,16 +164,17 @@ Brain stores all configuration in `~/.config/brain/config.json`.
 
 **Available settings:**
 
-| Key | Description | Default |
-|-----|-------------|---------|
-| `openai-key` | Your OpenAI API key (required for AI features) | (not set) |
-| `max-commits` | Number of recent commits to analyze | 10 |
-| `ai-model` | OpenAI model to use | gpt-4 |
-| `enable-ai` | Enable/disable AI analysis | true |
+| Key           | Description                                    | Default   |
+| ------------- | ---------------------------------------------- | --------- |
+| `openai-key`  | Your OpenAI API key (required for AI features) | (not set) |
+| `max-commits` | Number of recent commits to analyze            | 10        |
+| `ai-model`    | OpenAI model to use                            | gpt-4     |
+| `enable-ai`   | Enable/disable AI analysis                     | true      |
 
 ## Data Storage
 
 **All data is stored locally** in `~/.config/brain/`:
+
 - `config.json` - Your settings
 - `contexts.json` - Saved contexts with git data
 - **No cloud storage or data sharing**
@@ -182,12 +189,14 @@ Brain stores all configuration in `~/.config/brain/config.json`.
 ## Use Cases
 
 **Perfect for developers who:**
+
 - Get interrupted frequently (family, meetings, context switching)
 - Work on complex debugging that spans multiple sessions
 - Want to track their problem-solving approach over time
 - Need AI assistance to understand their own context after time away
 
 **Example scenarios:**
+
 - Debugging race conditions that take days to solve
 - Complex refactoring with many moving parts
 - Learning new codebases where context is crucial
@@ -196,6 +205,7 @@ Brain stores all configuration in `~/.config/brain/config.json`.
 ## Advanced Usage
 
 ### Branch-based Workflows
+
 ```bash
 # Work on feature branch
 git checkout feature/payment-flow
@@ -214,6 +224,7 @@ brain list --branch feature/payment-flow
 ```
 
 ### Offline Usage
+
 ```bash
 # Disable AI for offline work
 brain save "working offline on data structures" --no-ai
@@ -221,6 +232,7 @@ brain config set enable-ai false
 ```
 
 ### Raw Data Access
+
 ```bash
 # Export context as JSON
 brain resume --raw > context-backup.json
@@ -234,6 +246,7 @@ brain list --raw | jq '.[] | select(.gitContext.currentBranch == "main")'
 ### Common Issues
 
 **❌ "Not in a git repository"**
+
 ```bash
 cd your-project  # Navigate to git repo
 # OR
@@ -241,6 +254,7 @@ git init  # Initialize new repo
 ```
 
 **❌ AI features not working**
+
 ```bash
 # Check configuration
 brain config list
@@ -253,6 +267,7 @@ brain save "test message" --no-ai
 ```
 
 **❌ Permission errors**
+
 ```bash
 # Check storage directory
 ls -la ~/.config/brain/
@@ -290,7 +305,8 @@ deno task test  # All tests
 deno test tests/main.test.ts  # Specific test file
 ```
 
-The codebase has **50/50 tests passing** with comprehensive coverage of all components.
+The codebase has **50/50 tests passing** with comprehensive coverage of all
+components.
 
 ## Contributing
 
@@ -307,7 +323,8 @@ MIT License - see LICENSE file for details.
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/anthropics/brain-cli/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/anthropics/brain-cli/discussions)
+- **Discussions**:
+  [GitHub Discussions](https://github.com/anthropics/brain-cli/discussions)
 
 ---
 

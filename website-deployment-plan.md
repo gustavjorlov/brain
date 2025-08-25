@@ -2,14 +2,19 @@
 
 ## Overview
 
-This plan outlines the steps to deploy the Brain CLI website to GitHub Pages with automated deployment using GitHub Actions.
+This plan outlines the steps to deploy the Brain CLI website to GitHub Pages
+with automated deployment using GitHub Actions.
 
 ## Website Structure
 
 The website consists of:
-- **docs/index.html** - Modern single-page application with hero section, features, installation tabs, and responsive design
-- **docs/styles.css** - Complete CSS with modern design system, animations, and responsive layouts
-- **docs/script.js** - Interactive JavaScript for terminal demo, tab switching, copy-to-clipboard, and mobile menu
+
+- **docs/index.html** - Modern single-page application with hero section,
+  features, installation tabs, and responsive design
+- **docs/styles.css** - Complete CSS with modern design system, animations, and
+  responsive layouts
+- **docs/script.js** - Interactive JavaScript for terminal demo, tab switching,
+  copy-to-clipboard, and mobile menu
 - **.github/workflows/deploy.yml** - Automated deployment workflow
 
 ## Deployment Steps
@@ -17,6 +22,7 @@ The website consists of:
 ### 1. ✅ Website Creation (Completed)
 
 #### 1.1 ✅ HTML Structure
+
 - Created modern single-page website with:
   - Navigation with mobile menu support
   - Hero section with animated terminal demo
@@ -28,6 +34,7 @@ The website consists of:
   - Footer with links and branding
 
 #### 1.2 ✅ CSS Styling
+
 - Modern design system with CSS custom properties
 - Gradient text effects and smooth animations
 - Responsive design for mobile, tablet, and desktop
@@ -37,6 +44,7 @@ The website consists of:
 - Copy-to-clipboard button styling
 
 #### 1.3 ✅ JavaScript Functionality
+
 - Terminal demo with realistic typing animation
 - Installation tabs with smooth transitions
 - Copy-to-clipboard functionality for code blocks
@@ -49,6 +57,7 @@ The website consists of:
 ### 2. ✅ GitHub Actions Workflow (Completed)
 
 #### 2.1 ✅ Automated Deployment
+
 - Created `.github/workflows/deploy.yml` with:
   - Triggers on push to main branch (docs changes)
   - Manual workflow dispatch option
@@ -58,6 +67,7 @@ The website consists of:
   - Success notifications
 
 #### 2.2 ✅ Build Process
+
 - Validates all required files exist
 - Creates deployment directory with all assets
 - Adds build timestamps
@@ -67,12 +77,15 @@ The website consists of:
 ### 3. GitHub Pages Configuration (Manual Setup Required)
 
 #### 3.1 Repository Settings
+
 1. Go to repository Settings → Pages
 2. Set Source to "GitHub Actions"
-3. Configure custom domain (optional) or use default `username.github.io/repository-name`
+3. Configure custom domain (optional) or use default
+   `username.github.io/repository-name`
 4. Ensure "Enforce HTTPS" is enabled
 
 #### 3.2 Permissions Setup
+
 1. Go to Settings → Actions → General
 2. Set Workflow permissions to "Read and write permissions"
 3. Enable "Allow GitHub Actions to create and approve pull requests"
@@ -80,14 +93,17 @@ The website consists of:
 ### 4. Download Links Integration
 
 #### 4.1 ✅ Release Integration
+
 - Website includes direct download links to:
   - `brain-mac` for Intel Macs
-  - `brain-mac-arm64` for Apple Silicon Macs  
+  - `brain-mac-arm64` for Apple Silicon Macs
   - `brain-linux` for Linux systems
   - `brain.exe` for Windows
-- Links point to `github.com/anthropics/brain-cli/releases/latest/download/[filename]`
+- Links point to
+  `github.com/anthropics/brain-cli/releases/latest/download/[filename]`
 
 #### 4.2 ✅ Installation Instructions
+
 - Platform-specific installation commands
 - Copy-to-clipboard functionality for easy use
 - Verification steps included
@@ -96,12 +112,14 @@ The website consists of:
 ### 5. SEO and Accessibility
 
 #### 5.1 ✅ Meta Tags
+
 - Open Graph tags for social media sharing
 - Proper title and description tags
 - Favicon with brain emoji
 - Viewport meta tag for mobile responsiveness
 
 #### 5.2 ✅ Accessibility Features
+
 - Semantic HTML structure
 - Alt text for images (when added)
 - Keyboard navigation support
@@ -111,12 +129,14 @@ The website consists of:
 ### 6. Performance Optimizations
 
 #### 6.1 ✅ Loading Performance
+
 - Minimal external dependencies (only Google Fonts)
 - Optimized CSS with custom properties
 - Efficient JavaScript with event delegation
 - Lazy loading considerations for animations
 
 #### 6.2 ✅ Runtime Performance
+
 - Debounced scroll events
 - Optimized animations with CSS transforms
 - Efficient DOM manipulations
@@ -125,12 +145,14 @@ The website consists of:
 ## Deployment Workflow
 
 ### Initial Setup (One-time)
+
 1. Push website files to repository
 2. Configure GitHub Pages settings
 3. Set up repository permissions
 4. First deployment will run automatically
 
 ### Ongoing Updates
+
 1. Make changes to files in `docs/` directory
 2. Commit and push to main branch
 3. GitHub Actions automatically builds and deploys
@@ -160,6 +182,7 @@ brain-cli/
 ## Testing Checklist
 
 ### Pre-deployment Testing
+
 - [ ] Test website locally by opening `docs/index.html`
 - [ ] Verify all download links work
 - [ ] Test copy-to-clipboard functionality
@@ -167,7 +190,8 @@ brain-cli/
 - [ ] Validate HTML and CSS
 - [ ] Test JavaScript interactions
 
-### Post-deployment Testing  
+### Post-deployment Testing
+
 - [ ] Verify website loads at GitHub Pages URL
 - [ ] Test all download links resolve correctly
 - [ ] Check mobile and desktop layouts
@@ -177,6 +201,7 @@ brain-cli/
 ## Success Metrics
 
 ### Technical Metrics
+
 - Website loads in < 2 seconds
 - Mobile PageSpeed score > 90
 - Desktop PageSpeed score > 95
@@ -184,6 +209,7 @@ brain-cli/
 - Zero JavaScript errors in console
 
 ### User Experience Metrics
+
 - Terminal demo completes without issues
 - All installation commands copy correctly
 - Mobile menu functions properly
@@ -201,12 +227,14 @@ brain-cli/
 ## Maintenance
 
 ### Regular Updates
+
 - Update version numbers when releasing new Brain CLI versions
 - Refresh download links if release structure changes
 - Monitor and fix any broken links
 - Update dependencies (fonts, etc.) as needed
 
 ### Performance Monitoring
+
 - Regularly check website performance scores
 - Monitor GitHub Actions workflow success
 - Review user feedback and analytics
@@ -214,6 +242,6 @@ brain-cli/
 
 ---
 
-**Status**: ✅ Website ready for deployment  
-**Last Updated**: August 24, 2025  
+**Status**: ✅ Website ready for deployment\
+**Last Updated**: August 24, 2025\
 **Deployment Target**: GitHub Pages with custom domain support

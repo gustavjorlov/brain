@@ -1,4 +1,8 @@
-import type { GitContext, GitCommit, WorkingDirectoryChanges } from "../storage/models.ts";
+import type {
+  GitCommit,
+  GitContext,
+  WorkingDirectoryChanges,
+} from "../storage/models.ts";
 
 interface CommandResult {
   stdout: string;
@@ -26,8 +30,11 @@ export class GitAnalyzer {
 
   async getCurrentBranch(): Promise<string> {
     // Try the newer --show-current flag first
-    const showCurrentResult = await this.runCommand(["branch", "--show-current"]);
-    
+    const showCurrentResult = await this.runCommand([
+      "branch",
+      "--show-current",
+    ]);
+
     if (showCurrentResult.success && showCurrentResult.stdout.trim()) {
       return showCurrentResult.stdout.trim();
     }
@@ -37,15 +44,15 @@ export class GitAnalyzer {
     if (!branchListResult.success) {
       throw new Error(`Git command failed: ${branchListResult.stderr}`);
     }
-    
+
     const currentBranchLine = branchListResult.stdout
-      .split('\n')
-      .find(line => line.startsWith('*'));
-      
+      .split("\n")
+      .find((line) => line.startsWith("*"));
+
     if (!currentBranchLine) {
       throw new Error("Could not determine current branch");
     }
-    
+
     return currentBranchLine.slice(2).trim(); // Remove "* " prefix
   }
 
@@ -58,7 +65,7 @@ export class GitAnalyzer {
       "log",
       `--max-count=${maxCommits}`,
       "--pretty=format:%H§%s§%ai§%an§",
-      "--name-only"
+      "--name-only",
     ]);
 
     if (!result.success) {
@@ -74,13 +81,13 @@ export class GitAnalyzer {
 
   private parseGitLogOutput(output: string): GitCommit[] {
     const commits: GitCommit[] = [];
-    
+
     // Handle the test format with comma-separated files on same line
-    if (output.includes('§') && !output.includes('\n\n')) {
-      const lines = output.split('\n').filter(line => line.trim());
+    if (output.includes("§") && !output.includes("\n\n")) {
+      const lines = output.split("\n").filter((line) => line.trim());
       for (const line of lines) {
-        if (!line.includes('§')) continue;
-        const parts = line.split('§');
+        if (!line.includes("§")) continue;
+        const parts = line.split("§");
         if (parts.length >= 4) {
           const [hash, message, timestamp, author, files] = parts;
           commits.push({
@@ -88,7 +95,7 @@ export class GitAnalyzer {
             message: message.trim(),
             timestamp: timestamp.trim(),
             author: author.trim(),
-            filesChanged: files ? files.split(',').map(f => f.trim()) : []
+            filesChanged: files ? files.split(",").map((f) => f.trim()) : [],
           });
         }
       }
@@ -96,23 +103,25 @@ export class GitAnalyzer {
     }
 
     // Handle real git log format with file names on separate lines
-    const commitBlocks = output.split('\n\n').filter(block => block.trim());
+    const commitBlocks = output.split("\n\n").filter((block) => block.trim());
 
     for (const block of commitBlocks) {
-      const lines = block.split('\n');
+      const lines = block.split("\n");
       const commitInfo = lines[0];
-      
-      if (!commitInfo.includes('§')) continue;
-      
-      const [hash, message, timestamp, author] = commitInfo.split('§');
-      const filesChanged = lines.slice(1).filter(line => line.trim() && !line.includes('§'));
+
+      if (!commitInfo.includes("§")) continue;
+
+      const [hash, message, timestamp, author] = commitInfo.split("§");
+      const filesChanged = lines.slice(1).filter((line) =>
+        line.trim() && !line.includes("§")
+      );
 
       commits.push({
         hash: hash.trim(),
         message: message.trim(),
         timestamp: timestamp.trim(),
         author: author.trim(),
-        filesChanged: filesChanged.map(f => f.trim())
+        filesChanged: filesChanged.map((f) => f.trim()),
       });
     }
 
@@ -130,7 +139,7 @@ export class GitAnalyzer {
     const unstaged: string[] = [];
     const untracked: string[] = [];
 
-    const lines = result.stdout.split('\n').filter(line => line.trim());
+    const lines = result.stdout.split("\n").filter((line) => line.trim());
 
     for (const line of lines) {
       if (line.length < 3) continue;
@@ -139,12 +148,12 @@ export class GitAnalyzer {
       const workTreeStatus = line[1];
       const filename = line.slice(3);
 
-      if (indexStatus !== ' ' && indexStatus !== '?') {
+      if (indexStatus !== " " && indexStatus !== "?") {
         staged.push(filename);
       }
 
-      if (workTreeStatus !== ' ') {
-        if (workTreeStatus === '?') {
+      if (workTreeStatus !== " ") {
+        if (workTreeStatus === "?") {
           untracked.push(filename);
         } else {
           unstaged.push(filename);
@@ -163,33 +172,38 @@ export class GitAnalyzer {
     }
 
     const gitDir = result.stdout.trim();
-    
+
     // If it's just ".git", we're in the root of the repo
     if (gitDir === ".git") {
       return Deno.cwd();
     }
-    
+
     // If it's an absolute path ending with .git, return parent directory
-    if (gitDir.endsWith('.git')) {
+    if (gitDir.endsWith(".git")) {
       return gitDir.slice(0, -5); // Remove "/.git" suffix
     }
-    
+
     return gitDir;
   }
 
   async analyze(maxCommits: number = 10): Promise<GitContext> {
-    const [currentBranch, recentCommits, workingDirectoryChanges, repositoryPath] = await Promise.all([
+    const [
+      currentBranch,
+      recentCommits,
+      workingDirectoryChanges,
+      repositoryPath,
+    ] = await Promise.all([
       this.getCurrentBranch(),
       this.getRecentCommits(maxCommits),
       this.getWorkingDirectoryChanges(),
-      this.getRepositoryPath()
+      this.getRepositoryPath(),
     ]);
 
     return {
       currentBranch,
       recentCommits,
       workingDirectoryChanges,
-      repositoryPath
+      repositoryPath,
     };
   }
 }

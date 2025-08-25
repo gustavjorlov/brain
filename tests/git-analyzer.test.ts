@@ -3,7 +3,8 @@ import { GitAnalyzer } from "../src/git/analyzer.ts";
 import type { GitContext } from "../src/storage/models.ts";
 
 // Mock git command output for testing
-const mockGitLogOutput = `abc123§Fix auth middleware timing§2025-01-15T10:30:00Z§John Doe§auth/middleware.js,tests/auth.test.js
+const mockGitLogOutput =
+  `abc123§Fix auth middleware timing§2025-01-15T10:30:00Z§John Doe§auth/middleware.js,tests/auth.test.js
 def456§Add debug logging to validateToken§2025-01-15T09:15:00Z§John Doe§auth/middleware.js
 ghi789§Update JWT configuration§2025-01-15T08:00:00Z§Jane Smith§config/jwt.js`;
 
@@ -19,7 +20,7 @@ const mockGitBranchOutput = `  main
 
 Deno.test("GitAnalyzer.getCurrentBranch should parse git branch output", async () => {
   const analyzer = new GitAnalyzer();
-  
+
   // Mock the git command execution
   const originalRunCommand = analyzer.runCommand;
   analyzer.runCommand = async (command: string[]) => {
@@ -74,7 +75,10 @@ Deno.test("GitAnalyzer.getRecentCommits should parse git log output", async () =
   assertEquals(commits[0].hash, "abc123");
   assertEquals(commits[0].message, "Fix auth middleware timing");
   assertEquals(commits[0].author, "John Doe");
-  assertEquals(commits[0].filesChanged, ["auth/middleware.js", "tests/auth.test.js"]);
+  assertEquals(commits[0].filesChanged, [
+    "auth/middleware.js",
+    "tests/auth.test.js",
+  ]);
   assertEquals(commits[1].hash, "def456");
   assertEquals(commits[2].hash, "ghi789");
 });
@@ -132,7 +136,7 @@ Deno.test("GitAnalyzer.analyze should combine all git information", async () => 
   };
 
   const gitContext = await analyzer.analyze(10);
-  
+
   assertEquals(gitContext.currentBranch, "feature/auth-improvements");
   assertEquals(gitContext.recentCommits.length, 3);
   assertEquals(gitContext.workingDirectoryChanges.staged.length, 2);
@@ -143,13 +147,17 @@ Deno.test("GitAnalyzer should handle git command failures gracefully", async () 
   const analyzer = new GitAnalyzer();
 
   analyzer.runCommand = async () => {
-    return { stdout: "", stderr: "fatal: not a git repository", success: false };
+    return {
+      stdout: "",
+      stderr: "fatal: not a git repository",
+      success: false,
+    };
   };
 
   await assertRejects(
     () => analyzer.getCurrentBranch(),
     Error,
-    "not a git repository"
+    "not a git repository",
   );
 });
 
@@ -159,13 +167,13 @@ Deno.test("GitAnalyzer should validate maxCommits parameter", async () => {
   await assertRejects(
     () => analyzer.getRecentCommits(0),
     Error,
-    "maxCommits must be positive"
+    "maxCommits must be positive",
   );
 
   await assertRejects(
     () => analyzer.getRecentCommits(-5),
     Error,
-    "maxCommits must be positive"
+    "maxCommits must be positive",
   );
 });
 

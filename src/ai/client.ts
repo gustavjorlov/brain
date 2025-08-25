@@ -1,4 +1,4 @@
-import type { GitContext, AIInterpretation } from "../storage/models.ts";
+import type { AIInterpretation, GitContext } from "../storage/models.ts";
 
 interface OpenAIResponse {
   choices: Array<{
@@ -23,18 +23,33 @@ export class AIClient {
   }
 
   generatePrompt(userMessage: string, gitContext: GitContext): string {
-    const { currentBranch, recentCommits, workingDirectoryChanges, repositoryPath } = gitContext;
+    const {
+      currentBranch,
+      recentCommits,
+      workingDirectoryChanges,
+      repositoryPath,
+    } = gitContext;
 
     const commitSummary = recentCommits
       .slice(0, 5) // Limit to recent 5 commits
-      .map(commit => `- ${commit.hash.slice(0, 7)}: ${commit.message} (${commit.filesChanged.join(', ')})`)
-      .join('\n');
+      .map((commit) =>
+        `- ${commit.hash.slice(0, 7)}: ${commit.message} (${
+          commit.filesChanged.join(", ")
+        })`
+      )
+      .join("\n");
 
     const workingDirSummary = [
-      workingDirectoryChanges.staged.length > 0 ? `Staged: ${workingDirectoryChanges.staged.join(', ')}` : null,
-      workingDirectoryChanges.unstaged.length > 0 ? `Unstaged: ${workingDirectoryChanges.unstaged.join(', ')}` : null,
-      workingDirectoryChanges.untracked.length > 0 ? `Untracked: ${workingDirectoryChanges.untracked.join(', ')}` : null,
-    ].filter(Boolean).join('\n');
+      workingDirectoryChanges.staged.length > 0
+        ? `Staged: ${workingDirectoryChanges.staged.join(", ")}`
+        : null,
+      workingDirectoryChanges.unstaged.length > 0
+        ? `Unstaged: ${workingDirectoryChanges.unstaged.join(", ")}`
+        : null,
+      workingDirectoryChanges.untracked.length > 0
+        ? `Untracked: ${workingDirectoryChanges.untracked.join(", ")}`
+        : null,
+    ].filter(Boolean).join("\n");
 
     return `You are a senior software developer helping analyze a coding context. A developer has saved their current thoughts along with git repository information.
 
@@ -45,10 +60,10 @@ Git Context:
 - Repository: ${repositoryPath}
 
 Recent Commits:
-${commitSummary || 'No recent commits'}
+${commitSummary || "No recent commits"}
 
 Working Directory Changes:
-${workingDirSummary || 'No changes'}
+${workingDirSummary || "No changes"}
 
 Please analyze this context and provide insights in JSON format with these exact fields:
 {
@@ -62,7 +77,10 @@ Please analyze this context and provide insights in JSON format with these exact
 Focus on being practical and actionable. Consider the recent commit patterns, file changes, and the developer's stated concerns.`;
   }
 
-  async analyzeContext(userMessage: string, gitContext: GitContext): Promise<AIInterpretation> {
+  async analyzeContext(
+    userMessage: string,
+    gitContext: GitContext,
+  ): Promise<AIInterpretation> {
     if (!this.apiKey || this.apiKey.trim() === "") {
       throw new Error("OpenAI API key is required");
     }
@@ -75,7 +93,7 @@ Focus on being practical and actionable. Consider the recent commit patterns, fi
         {
           role: "user" as const,
           content: prompt,
-        }
+        },
       ],
       temperature: 0.3,
       max_tokens: 1000,
@@ -94,9 +112,15 @@ Focus on being practical and actionable. Consider the recent commit patterns, fi
       if (!response.ok) {
         const errorData = await response.json() as OpenAIResponse;
         if (response.status === 429) {
-          throw new Error("OpenAI API rate limit exceeded. Please try again later.");
+          throw new Error(
+            "OpenAI API rate limit exceeded. Please try again later.",
+          );
         }
-        throw new Error(`OpenAI API error (${response.status}): ${errorData.error?.message || 'Unknown error'}`);
+        throw new Error(
+          `OpenAI API error (${response.status}): ${
+            errorData.error?.message || "Unknown error"
+          }`,
+        );
       }
 
       const data = await response.json() as OpenAIResponse;
@@ -109,34 +133,54 @@ Focus on being practical and actionable. Consider the recent commit patterns, fi
 
       try {
         const parsed = JSON.parse(content) as AIInterpretation;
-        
+
         // Validate required fields
-        if (!parsed.summary || !parsed.technicalContext || !parsed.suggestedNextSteps || !parsed.relatedFiles || typeof parsed.confidenceScore !== 'number') {
-          throw new Error("Invalid AI response format: missing required fields");
+        if (
+          !parsed.summary || !parsed.technicalContext ||
+          !parsed.suggestedNextSteps || !parsed.relatedFiles ||
+          typeof parsed.confidenceScore !== "number"
+        ) {
+          throw new Error(
+            "Invalid AI response format: missing required fields",
+          );
         }
 
         // Ensure arrays
-        if (!Array.isArray(parsed.suggestedNextSteps) || !Array.isArray(parsed.relatedFiles)) {
-          throw new Error("Invalid AI response format: suggestedNextSteps and relatedFiles must be arrays");
+        if (
+          !Array.isArray(parsed.suggestedNextSteps) ||
+          !Array.isArray(parsed.relatedFiles)
+        ) {
+          throw new Error(
+            "Invalid AI response format: suggestedNextSteps and relatedFiles must be arrays",
+          );
         }
 
         // Validate confidence score range
         if (parsed.confidenceScore < 0 || parsed.confidenceScore > 1) {
-          parsed.confidenceScore = Math.max(0, Math.min(1, parsed.confidenceScore));
+          parsed.confidenceScore = Math.max(
+            0,
+            Math.min(1, parsed.confidenceScore),
+          );
         }
 
         return parsed;
       } catch (jsonError) {
-        if (jsonError instanceof Error && jsonError.message.includes("Invalid AI response format")) {
+        if (
+          jsonError instanceof Error &&
+          jsonError.message.includes("Invalid AI response format")
+        ) {
           throw jsonError; // Re-throw our validation errors
         }
         throw new Error("Failed to parse AI response: invalid JSON format");
       }
-
     } catch (error) {
       if (error instanceof Error) {
         // Re-throw our custom errors
-        if (error.message.includes("OpenAI API") || error.message.includes("No response") || error.message.includes("Failed to parse")) {
+        if (
+          error.message.includes("OpenAI API") ||
+          error.message.includes("No response") ||
+          error.message.includes("Failed to parse")
+        ) {
           throw error;
         }
         // Network or other errors
@@ -153,7 +197,7 @@ Focus on being practical and actionable. Consider the recent commit patterns, fi
         currentBranch: "main",
         recentCommits: [],
         workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
-        repositoryPath: "/test"
+        repositoryPath: "/test",
       };
 
       await this.analyzeContext("Connection test", testGitContext);

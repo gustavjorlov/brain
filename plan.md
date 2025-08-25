@@ -3,12 +3,14 @@ Here's the updated comprehensive plan with "brain" as the tool name:
 ## Phase 1: Technical Setup & Architecture
 
 **1. Project Initialization**
+
 ```bash
 mkdir brain && cd brain
 deno init
 ```
 
 **2. Project Structure**
+
 ```
 brain/
 ├── src/
@@ -34,6 +36,7 @@ brain/
 ```
 
 **3. Dependencies & Build Setup (deno.json)**
+
 ```json
 {
   "tasks": {
@@ -56,19 +59,25 @@ brain/
 ## Phase 2: TDD Implementation (Feature by Feature)
 
 **4. Core Types & Models (TDD)**
+
 ```bash
 touch tests/models.test.ts
 ```
+
 Test-drive the core data structures:
+
 - `GitContext` interface
-- `WorkNote` interface  
+- `WorkNote` interface
 - `AIInterpretation` interface
 
 **5. Git Analyzer Module (TDD)**
+
 ```bash
 touch tests/git-analyzer.test.ts
 ```
+
 Test scenarios:
+
 - Parse git log output
 - Extract current branch name
 - Get file change statistics
@@ -76,10 +85,13 @@ Test scenarios:
 - Mock git commands for testing
 
 **6. Storage Layer (TDD)**
+
 ```bash
 touch tests/storage.test.ts
 ```
+
 Test cases:
+
 - Save work notes to local storage
 - Retrieve notes by timestamp/branch
 - Handle storage initialization
@@ -87,10 +99,13 @@ Test cases:
 - File system permissions
 
 **7. AI Integration (TDD)**
+
 ```bash
 touch tests/ai-client.test.ts
 ```
+
 Test scenarios:
+
 - Format prompts correctly
 - Handle OpenAI API responses
 - Mock API calls for tests
@@ -100,10 +115,13 @@ Test scenarios:
 ## Phase 3: CLI Implementation
 
 **8. Command Parser (TDD)**
+
 ```bash
 touch tests/cli-parser.test.ts
 ```
+
 Test cases:
+
 - Parse `save` command with message
 - Parse `resume` command
 - Parse `list` command
@@ -111,20 +129,26 @@ Test cases:
 - Argument validation
 
 **9. Save Command (TDD)**
+
 ```bash
 touch tests/save-command.test.ts
 ```
+
 Integration tests:
+
 - Capture git context
 - Send to AI for interpretation
 - Store enriched context
 - Handle errors gracefully
 
 **10. Resume Command (TDD)**
+
 ```bash
 touch tests/resume-command.test.ts
 ```
+
 Test scenarios:
+
 - Display latest context
 - Format output nicely
 - Handle no previous context
@@ -133,20 +157,26 @@ Test scenarios:
 ## Phase 4: Integration & Polish
 
 **11. CLI Entry Point**
+
 ```bash
 touch tests/main.test.ts
 ```
+
 End-to-end tests:
+
 - Full command execution
 - Error handling
 - Help text
 - Version display
 
 **12. Configuration Management**
+
 ```bash
 touch tests/config.test.ts
 ```
+
 Test cases:
+
 - OpenAI API key handling
 - Default settings
 - Config file creation
@@ -155,15 +185,19 @@ Test cases:
 ## Phase 5: Build & Distribution
 
 **13. Cross-Platform Build Script**
+
 ```bash
 touch scripts/build-cross-platform.ts
 ```
+
 Create automated builds for:
+
 - Linux (x86_64)
 - macOS (x86_64 & ARM64)
 - Windows (x86_64)
 
 **14. Local Development Installation**
+
 ```bash
 # During development - test the install process
 deno task build
@@ -175,17 +209,20 @@ brain --version
 ```
 
 **15. Executable Testing**
+
 ```bash
 touch tests/executable.test.ts
 ```
+
 Test the compiled executable:
+
 - Verify global installation works
 - Test executable runs without Deno runtime
 - Cross-platform compatibility checks
 - Performance benchmarks
 
-**16. Distribution Documentation**
-Update README.md with:
+**16. Distribution Documentation** Update README.md with:
+
 - Installation instructions for end users
 - Build instructions for contributors
 - Cross-platform compatibility notes
@@ -194,6 +231,7 @@ Update README.md with:
 ## Updated Usage Examples
 
 **Core CLI Commands:**
+
 ```bash
 # Quick context capture
 brain save "trying to figure out why JWT validation fails intermittently"
@@ -208,6 +246,7 @@ brain list
 ## Sample Build Script
 
 **`scripts/build-cross-platform.ts`:**
+
 ```typescript
 const targets = [
   { platform: "x86_64-unknown-linux-gnu", suffix: "-linux" },
@@ -221,16 +260,21 @@ for (const target of targets) {
   const cmd = new Deno.Command("deno", {
     args: [
       "compile",
-      "--allow-read", "--allow-write", "--allow-run", "--allow-net",
-      "--target", target.platform,
-      "--output", output,
-      "src/main.ts"
+      "--allow-read",
+      "--allow-write",
+      "--allow-run",
+      "--allow-net",
+      "--target",
+      target.platform,
+      "--output",
+      output,
+      "src/main.ts",
     ],
   });
-  
+
   console.log(`Building for ${target.platform}...`);
   const result = await cmd.output();
-  
+
   if (result.success) {
     console.log(`✅ Built ${output}`);
   } else {
@@ -242,6 +286,7 @@ for (const target of targets) {
 ## Development Workflow
 
 **TDD Cycle with Executable Testing:**
+
 1. Write failing test
 2. Write minimal code to pass
 3. Refactor
@@ -250,9 +295,11 @@ for (const target of targets) {
 6. Install and test globally when ready: `deno task install`
 
 **Release Process:**
+
 1. All tests pass
 2. Build cross-platform executables: `deno task build-all`
 3. Test executables on different platforms
 4. Tag release and distribute binaries
 
-Perfect! "brain" is much more concise and intuitive - `brain save "debugging auth"` and `brain resume` feel natural to type.
+Perfect! "brain" is much more concise and intuitive -
+`brain save "debugging auth"` and `brain resume` feel natural to type.

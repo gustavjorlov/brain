@@ -1,12 +1,22 @@
 ## Application Description
 
-**Brain** is a CLI tool that solves the context-switching problem for developers with busy family lives. When you're deep in debugging or development and need to suddenly switch to family time, you lose your mental context about what you were thinking and what to try next. Brain captures your current thoughts along with your git activity, uses AI to interpret the technical context, and helps you seamlessly resume where you left off - even hours or days later.
+**Brain** is a CLI tool that solves the context-switching problem for developers
+with busy family lives. When you're deep in debugging or development and need to
+suddenly switch to family time, you lose your mental context about what you were
+thinking and what to try next. Brain captures your current thoughts along with
+your git activity, uses AI to interpret the technical context, and helps you
+seamlessly resume where you left off - even hours or days later.
 
-**Core Problem:** You're debugging auth middleware timing issues, your 6-year-old needs help, and when you return to your code 2 hours later, you've completely forgotten your debugging strategy and current theories about the bug.
+**Core Problem:** You're debugging auth middleware timing issues, your
+6-year-old needs help, and when you return to your code 2 hours later, you've
+completely forgotten your debugging strategy and current theories about the bug.
 
-**Solution:** `brain save "auth timing issues - think tokens expire too fast"` captures your thoughts + recent git activity. Later, `brain resume` shows your original thoughts plus AI analysis of your code changes and suggested next steps.
+**Solution:** `brain save "auth timing issues - think tokens expire too fast"`
+captures your thoughts + recent git activity. Later, `brain resume` shows your
+original thoughts plus AI analysis of your code changes and suggested next
+steps.
 
------
+---
 
 ## CLI Documentation
 
@@ -165,4 +175,5 @@ brain resume                         # ❌ Error: No previous context found
 brain config set openai-key         # ❌ Error: OpenAI API key required
 ```
 
-This documentation gives you clear specifications to implement against and serves as test scenarios for your TDD approach!
+This documentation gives you clear specifications to implement against and
+serves as test scenarios for your TDD approach!

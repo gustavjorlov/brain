@@ -3,11 +3,11 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release (e.g., v1.2.3)'
+        description: "Version to release (e.g., v1.2.3)"
         required: true
         type: string
 
@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Get version from deno.json or input
         id: get-version
         run: |
@@ -50,20 +50,20 @@ jobs:
             echo "version=${VERSION}" >> $GITHUB_OUTPUT
             echo "tag=${TAG}" >> $GITHUB_OUTPUT
           fi
-          
+
           # Validate version exists in deno.json
           DENO_VERSION=$(jq -r '.version' deno.json)
           if [[ "$DENO_VERSION" == "null" ]]; then
             echo "Error: No version field found in deno.json"
             exit 1
           fi
-          
+
           # Check if versions match (for tag pushes)
           if [[ "${{ github.event_name }}" == "push" && "$VERSION" != "$DENO_VERSION" ]]; then
             echo "Warning: Tag version ($VERSION) doesn't match deno.json version ($DENO_VERSION)"
             echo "Using tag version for consistency"
           fi
-          
+
           echo "Releasing version: $VERSION"
 
   test:
@@ -73,19 +73,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: "2.1.3"
-          
+
       - name: Validate lockfile compatibility
         run: |
           echo "🔍 Validating deno.lock compatibility..."
           if [ -f "deno.lock" ]; then
             LOCKFILE_VERSION=$(jq -r '.version' deno.lock)
             echo "Lockfile version: $LOCKFILE_VERSION"
-            
+
             # Deno 2.x uses lockfile version 4
             if [ "$LOCKFILE_VERSION" != "4" ]; then
               echo "❌ Error: Lockfile version $LOCKFILE_VERSION is not compatible with Deno 2.x"
@@ -93,12 +93,12 @@ jobs:
               echo "Please regenerate the lockfile with: rm deno.lock && deno cache src/main.ts"
               exit 1
             fi
-            
+
             echo "✅ Lockfile version is compatible"
           else
             echo "⚠️ No lockfile found - dependencies will be downloaded fresh"
           fi
-        
+
       - name: Cache Deno dependencies
         uses: actions/cache@v4
         with:
@@ -109,7 +109,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-deno-2.1.3-
             ${{ runner.os }}-deno-
-            
+
       - name: Run tests
         run: deno task test
 
@@ -133,23 +133,23 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             artifact: brain.exe
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: "2.1.3"
-          
+
       - name: Validate lockfile compatibility
         run: |
           echo "🔍 Validating deno.lock compatibility..."
           if [ -f "deno.lock" ]; then
             LOCKFILE_VERSION=$(jq -r '.version' deno.lock)
             echo "Lockfile version: $LOCKFILE_VERSION"
-            
+
             # Deno 2.x uses lockfile version 4
             if [ "$LOCKFILE_VERSION" != "4" ]; then
               echo "❌ Error: Lockfile version $LOCKFILE_VERSION is not compatible with Deno 2.x"
@@ -157,12 +157,12 @@ jobs:
               echo "Please regenerate the lockfile with: rm deno.lock && deno cache src/main.ts"
               exit 1
             fi
-            
+
             echo "✅ Lockfile version is compatible"
           else
             echo "⚠️ No lockfile found - dependencies will be downloaded fresh"
           fi
-        
+
       - name: Cache Deno dependencies
         uses: actions/cache@v4
         with:
@@ -173,7 +173,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-deno-2.1.3-
             ${{ runner.os }}-deno-
-            
+
       - name: Build binary
         run: |
           deno compile \
@@ -185,18 +185,18 @@ jobs:
             --target ${{ matrix.target }} \
             --output bin/${{ matrix.artifact }} \
             src/main.ts
-            
+
       - name: Test binary (Unix)
         if: runner.os != 'Windows'
         run: |
           chmod +x bin/${{ matrix.artifact }}
           ./bin/${{ matrix.artifact }} --version
-          
+
       - name: Test binary (Windows)
         if: runner.os == 'Windows'
         run: |
           .\bin\${{ matrix.artifact }} --version
-          
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -211,45 +211,45 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-          
+
       - name: Prepare release assets
         run: |
           mkdir -p release-assets
-          
+
           # Copy binaries to release directory
           cp artifacts/brain-linux/brain-linux release-assets/
           cp artifacts/brain-mac/brain-mac release-assets/
           cp artifacts/brain-mac-arm64/brain-mac-arm64 release-assets/
           cp artifacts/brain.exe/brain.exe release-assets/
-          
+
           # Make Unix binaries executable
           chmod +x release-assets/brain-linux
           chmod +x release-assets/brain-mac
           chmod +x release-assets/brain-mac-arm64
-          
+
           # Generate checksums
           cd release-assets
           sha256sum * > checksums.txt
           cd ..
-          
+
           # Create installation script
           cat > release-assets/install.sh << 'EOF'
           #!/bin/bash
           set -e
-          
+
           # Brain CLI Installation Script
           echo "🧠 Brain CLI Installer"
           echo "====================="
-          
+
           # Detect OS and architecture
           OS=$(uname -s | tr '[:upper:]' '[:lower:]')
           ARCH=$(uname -m)
-          
+
           case "$OS" in
             linux*)
               BINARY="brain-linux"
@@ -266,14 +266,14 @@ jobs:
               exit 1
               ;;
           esac
-          
+
           echo "Detected platform: $OS-$ARCH"
           echo "Installing binary: $BINARY"
-          
+
           # Download and install
           INSTALL_DIR="$HOME/.local/bin"
           mkdir -p "$INSTALL_DIR"
-          
+
           if command -v curl >/dev/null 2>&1; then
             curl -L "https://github.com/${{ github.repository }}/releases/latest/download/$BINARY" -o "$INSTALL_DIR/brain"
           elif command -v wget >/dev/null 2>&1; then
@@ -282,9 +282,9 @@ jobs:
             echo "❌ Neither curl nor wget found. Please install one of them."
             exit 1
           fi
-          
+
           chmod +x "$INSTALL_DIR/brain"
-          
+
           echo "✅ Brain CLI installed to $INSTALL_DIR/brain"
           echo ""
           echo "Add $INSTALL_DIR to your PATH if it's not already there:"
@@ -294,76 +294,76 @@ jobs:
           echo "Test your installation:"
           echo "  brain --version"
           EOF
-          
+
           chmod +x release-assets/install.sh
-          
+
       - name: Generate release notes
         id: release-notes
         run: |
           cat > release-notes.md << EOF
           # Brain CLI ${{ needs.validate-version.outputs.tag }}
-          
+
           ## 🎉 What's New
-          
+
           This release includes:
           - Core CLI functionality for capturing and resuming development context
           - AI-powered context analysis with OpenAI integration
           - Git integration for automatic repository state detection
           - Cross-platform support (Linux, macOS Intel/ARM, Windows)
-          
+
           ## 📦 Installation
-          
+
           ### Quick Install (Linux/macOS)
           \`\`\`bash
           curl -sSL https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/install.sh | bash
           \`\`\`
-          
+
           ### Manual Download
-          
+
           Download the appropriate binary for your platform:
-          
+
           - **Linux (x64)**: [brain-linux](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain-linux)
           - **macOS (Intel)**: [brain-mac](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain-mac)
           - **macOS (ARM64)**: [brain-mac-arm64](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain-mac-arm64)
           - **Windows**: [brain.exe](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain.exe)
-          
+
           ### Verification
-          
+
           Verify your download with the provided checksums:
           \`\`\`bash
           sha256sum -c checksums.txt
           \`\`\`
-          
+
           ## 🚀 Quick Start
-          
+
           1. Configure your OpenAI API key:
              \`\`\`bash
              brain config set openai-key sk-your-api-key-here
              \`\`\`
-          
+
           2. Save your current context:
              \`\`\`bash
              brain save "debugging authentication middleware"
              \`\`\`
-          
+
           3. Resume where you left off:
              \`\`\`bash
              brain resume
              \`\`\`
-          
+
           ## 📋 Full Command Reference
-          
+
           - \`brain save <message>\` - Save current context with your notes
           - \`brain resume\` - Show last context with AI analysis
           - \`brain list [count]\` - View recent context history
           - \`brain config set <key> <value>\` - Configure settings
           - \`brain --help\` - Show detailed help
-          
+
           ---
-          
+
           **Full Changelog**: https://github.com/${{ github.repository }}/compare/v0.0.0...${{ needs.validate-version.outputs.tag }}
           EOF
-          
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -377,7 +377,7 @@ jobs:
           generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Update installation documentation
         run: |
           echo "✅ Release ${{ needs.validate-version.outputs.tag }} created successfully!"

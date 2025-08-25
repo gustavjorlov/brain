@@ -28,7 +28,12 @@
 
 /* Base Styles */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background);
@@ -217,7 +222,6 @@ body {
   padding: 0 1.5rem;
 }
 
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -317,9 +321,15 @@ body {
   border-radius: 50%;
 }
 
-.terminal-dot.red { background: #ef4444; }
-.terminal-dot.yellow { background: #f59e0b; }
-.terminal-dot.green { background: #10b981; }
+.terminal-dot.red {
+  background: #ef4444;
+}
+.terminal-dot.yellow {
+  background: #f59e0b;
+}
+.terminal-dot.green {
+  background: #10b981;
+}
 
 .terminal-title {
   color: #d1d5db;
@@ -329,7 +339,7 @@ body {
 
 .terminal-content {
   padding: 1.5rem;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-family: "Menlo", "Monaco", "Courier New", monospace;
   font-size: 0.9rem;
   line-height: 1.6;
   color: #d1d5db;
@@ -363,8 +373,12 @@ body {
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
 }
 
 /* Core Commands Section */
@@ -414,7 +428,7 @@ body {
 }
 
 .command-name {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 1rem;
   font-weight: 600;
   color: var(--primary-color);
@@ -437,7 +451,7 @@ body {
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.8rem;
   color: var(--text-primary);
   word-break: break-all;
@@ -575,7 +589,7 @@ body {
   background: var(--background-dark);
   border-radius: 0.5rem;
   padding: 0.75rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.85rem;
   color: #d1d5db;
   overflow-x: auto;
@@ -693,9 +707,15 @@ body {
   border-radius: 50%;
 }
 
-.terminal-button.close { background: #ff5f56; }
-.terminal-button.minimize { background: #ffbd2e; }
-.terminal-button.maximize { background: #27ca3f; }
+.terminal-button.close {
+  background: #ff5f56;
+}
+.terminal-button.minimize {
+  background: #ffbd2e;
+}
+.terminal-button.maximize {
+  background: #27ca3f;
+}
 
 .terminal-title {
   color: #a5adcb;
@@ -707,7 +727,7 @@ body {
   padding: 1.5rem;
   background: #1a1b26;
   color: #a5adcb;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.9rem;
   line-height: 1.6;
   height: 400px;
@@ -780,7 +800,7 @@ body {
   background: var(--background-dark);
   border-radius: 0.5rem;
   padding: 1.5rem;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-family: "Menlo", "Monaco", "Courier New", monospace;
   font-size: 0.9rem;
   color: #d1d5db;
   overflow-x: auto;
@@ -954,7 +974,7 @@ body {
   background: var(--background);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.875rem;
   color: var(--primary-color);
 }
@@ -964,40 +984,40 @@ body {
   .hero-title {
     font-size: 2.2rem;
   }
-  
+
   .hero {
     padding: 2rem 0;
   }
-  
+
   .main-grid {
     padding: 2rem 0;
   }
-  
+
   .grid-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .right-column {
     position: static;
   }
-  
+
   .commands-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .selling-points,
   .core-commands,
   .quick-start,
   .quick-start-steps {
     padding: 1.5rem;
   }
-  
+
   .install-options {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .terminal-content {
     height: 300px;
     font-size: 0.8rem;
@@ -1012,11 +1032,19 @@ body {
     transform: translateY(20px);
     animation: fadeInUp 0.6s ease forwards;
   }
-  
-  .command-item:nth-child(1) { animation-delay: 0.1s; }
-  .command-item:nth-child(2) { animation-delay: 0.2s; }
-  .command-item:nth-child(3) { animation-delay: 0.3s; }
-  .command-item:nth-child(4) { animation-delay: 0.4s; }
+
+  .command-item:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .command-item:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .command-item:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .command-item:nth-child(4) {
+    animation-delay: 0.4s;
+  }
 }
 
 @keyframes fadeInUp {

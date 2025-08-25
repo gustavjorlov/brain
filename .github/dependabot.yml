@@ -13,7 +13,7 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
-    
-  # Note: Deno uses JSR and web-based imports which don't require 
+
+  # Note: Deno uses JSR and web-based imports which don't require
   # traditional dependency management. Dependabot primarily monitors
   # the GitHub Actions dependencies above.

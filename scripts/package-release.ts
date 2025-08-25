@@ -5,7 +5,7 @@
  * Creates a release directory with all necessary files
  */
 
-import { ensureDir, copy } from "@std/fs";
+import { copy, ensureDir } from "@std/fs";
 import { join } from "@std/path";
 
 const VERSION = "0.1.0";
@@ -19,15 +19,15 @@ await ensureDir(RELEASE_DIR);
 // Copy executables
 const executables = [
   "brain-linux",
-  "brain-mac", 
+  "brain-mac",
   "brain-mac-arm64",
-  "brain.exe"
+  "brain.exe",
 ];
 
 for (const executable of executables) {
   const src = `bin/${executable}`;
   const dest = join(RELEASE_DIR, executable);
-  
+
   try {
     await copy(src, dest);
     console.log(`✅ Copied ${executable}`);
@@ -40,7 +40,7 @@ for (const executable of executables) {
 const docs = [
   "README.md",
   "CLAUDE.md",
-  "description.md"
+  "description.md",
 ];
 
 for (const doc of docs) {
@@ -100,15 +100,22 @@ for (const executable of executables) {
     const data = await Deno.readFile(filePath);
     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join(
+      "",
+    );
     checksums.push(`${hashHex}  ${executable}`);
     console.log(`✅ Generated checksum for ${executable}`);
   } catch (error) {
-    console.log(`❌ Failed to generate checksum for ${executable}: ${error.message}`);
+    console.log(
+      `❌ Failed to generate checksum for ${executable}: ${error.message}`,
+    );
   }
 }
 
-await Deno.writeTextFile(join(RELEASE_DIR, "checksums.txt"), checksums.join('\n'));
+await Deno.writeTextFile(
+  join(RELEASE_DIR, "checksums.txt"),
+  checksums.join("\n"),
+);
 console.log("✅ Created checksums.txt");
 
 console.log(`\n🎉 Release package ready in ${RELEASE_DIR}/`);
@@ -117,7 +124,7 @@ const entries = [];
 for await (const entry of Deno.readDir(RELEASE_DIR)) {
   entries.push(entry.name);
 }
-entries.sort().forEach(name => console.log(`  - ${name}`));
+entries.sort().forEach((name) => console.log(`  - ${name}`));
 
 console.log(`\n📊 Total files: ${entries.length}`);
 console.log("🚀 Ready for distribution!");

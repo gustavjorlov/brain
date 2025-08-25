@@ -1,5 +1,10 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { GitContext, WorkNote, AIInterpretation, BrainConfig } from "../src/storage/models.ts";
+import type {
+  AIInterpretation,
+  BrainConfig,
+  GitContext,
+  WorkNote,
+} from "../src/storage/models.ts";
 
 Deno.test("GitContext interface should contain required fields", () => {
   const gitContext: GitContext = {
@@ -10,15 +15,15 @@ Deno.test("GitContext interface should contain required fields", () => {
         message: "Fix auth middleware timing",
         timestamp: "2025-01-15T10:30:00Z",
         author: "John Doe",
-        filesChanged: ["auth/middleware.js", "tests/auth.test.js"]
-      }
+        filesChanged: ["auth/middleware.js", "tests/auth.test.js"],
+      },
     ],
     workingDirectoryChanges: {
       staged: ["auth/middleware.js"],
       unstaged: ["config/jwt.js"],
-      untracked: ["debug.log"]
+      untracked: ["debug.log"],
     },
-    repositoryPath: "/Users/dev/project"
+    repositoryPath: "/Users/dev/project",
   };
 
   assertEquals(gitContext.currentBranch, "feature/auth-improvements");
@@ -39,14 +44,17 @@ Deno.test("WorkNote interface should contain user message and git context", () =
       workingDirectoryChanges: {
         staged: [],
         unstaged: [],
-        untracked: []
+        untracked: [],
       },
-      repositoryPath: "/Users/dev/project"
+      repositoryPath: "/Users/dev/project",
     },
-    aiInterpretation: undefined
+    aiInterpretation: undefined,
   };
 
-  assertEquals(workNote.message, "debugging auth middleware - tokens expiring randomly");
+  assertEquals(
+    workNote.message,
+    "debugging auth middleware - tokens expiring randomly",
+  );
   assertEquals(workNote.gitContext.currentBranch, "feature/auth-improvements");
   assertEquals(workNote.aiInterpretation, undefined);
   assertExists(workNote.id);
@@ -56,17 +64,21 @@ Deno.test("WorkNote interface should contain user message and git context", () =
 Deno.test("AIInterpretation interface should contain analysis and suggestions", () => {
   const aiInterpretation: AIInterpretation = {
     summary: "Working on authentication flow issues with token expiry",
-    technicalContext: "Recent commits show modifications to auth middleware and token validation logic",
+    technicalContext:
+      "Recent commits show modifications to auth middleware and token validation logic",
     suggestedNextSteps: [
       "Check token expiry configuration in config/jwt.js",
       "Review async/await handling in middleware",
-      "Add timing logs to track token lifecycle"
+      "Add timing logs to track token lifecycle",
     ],
     relatedFiles: ["auth/middleware.js", "config/jwt.js", "tests/auth.test.js"],
-    confidenceScore: 0.85
+    confidenceScore: 0.85,
   };
 
-  assertEquals(aiInterpretation.summary, "Working on authentication flow issues with token expiry");
+  assertEquals(
+    aiInterpretation.summary,
+    "Working on authentication flow issues with token expiry",
+  );
   assertEquals(aiInterpretation.suggestedNextSteps.length, 3);
   assertEquals(aiInterpretation.confidenceScore, 0.85);
   assertExists(aiInterpretation.technicalContext);
@@ -79,7 +91,7 @@ Deno.test("BrainConfig interface should contain all settings", () => {
     maxCommits: 10,
     aiModel: "gpt-4",
     storagePath: "~/.config/brain/data",
-    enableAI: true
+    enableAI: true,
   };
 
   assertEquals(config.openaiApiKey, "sk-test-key-123");
@@ -102,30 +114,37 @@ Deno.test("WorkNote with AIInterpretation should be complete context", () => {
           message: "Extract user validation logic",
           timestamp: "2025-01-15T10:45:00Z",
           author: "Jane Smith",
-          filesChanged: ["services/user.js", "validators/user.js"]
-        }
+          filesChanged: ["services/user.js", "validators/user.js"],
+        },
       ],
       workingDirectoryChanges: {
         staged: ["services/user.js"],
         unstaged: ["tests/user.test.js"],
-        untracked: []
+        untracked: [],
       },
-      repositoryPath: "/Users/dev/project"
+      repositoryPath: "/Users/dev/project",
     },
     aiInterpretation: {
       summary: "Refactoring user service to improve maintainability",
       technicalContext: "Extracting validation logic into separate module",
       suggestedNextSteps: [
         "Update unit tests for new validator module",
-        "Check API documentation for breaking changes"
+        "Check API documentation for breaking changes",
       ],
-      relatedFiles: ["services/user.js", "validators/user.js", "tests/user.test.js"],
-      confidenceScore: 0.92
-    }
+      relatedFiles: [
+        "services/user.js",
+        "validators/user.js",
+        "tests/user.test.js",
+      ],
+      confidenceScore: 0.92,
+    },
   };
 
   assertExists(completeWorkNote.aiInterpretation);
-  assertEquals(completeWorkNote.aiInterpretation?.summary, "Refactoring user service to improve maintainability");
+  assertEquals(
+    completeWorkNote.aiInterpretation?.summary,
+    "Refactoring user service to improve maintainability",
+  );
   assertEquals(completeWorkNote.gitContext.recentCommits.length, 1);
   assertEquals(completeWorkNote.aiInterpretation?.confidenceScore, 0.92);
 });
