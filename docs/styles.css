@@ -236,8 +236,114 @@ body {
   51%, 100% { opacity: 0; }
 }
 
-/* Features Section */
+/* Commands Showcase Section */
 .features {
+  padding: 6rem 0;
+  background: var(--background-secondary);
+}
+
+.commands-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.command-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.command-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.command-card.primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+}
+
+.command-card.primary .command-name {
+  color: white;
+}
+
+.command-card.primary .command-description {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.command-card.primary code {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.command-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.command-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.command-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.command-example {
+  margin-bottom: 1.5rem;
+}
+
+.command-example code {
+  display: block;
+  padding: 1rem;
+  background: var(--background-secondary);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+.command-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.feature-tag {
+  background: var(--background);
+  color: var(--text-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+
+.command-card.primary .feature-tag {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Key Features Section */
+.key-features {
   padding: 6rem 0;
   background: var(--background);
 }
@@ -415,6 +521,122 @@ body {
   border-top: 1px solid #374151;
   color: #6b7280;
   font-size: 0.9rem;
+}
+
+/* Upgrade Section */
+.upgrade-section {
+  max-width: 800px;
+  margin: 4rem auto 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.upgrade-section h4 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.upgrade-section > p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.upgrade-tabs {
+  margin-bottom: 2rem;
+}
+
+.upgrade-tab-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: var(--background-secondary);
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+}
+
+.upgrade-tab-button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upgrade-tab-button.active {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+}
+
+.upgrade-tab-button:not(.active):hover {
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+.upgrade-tab-panel {
+  display: none;
+}
+
+.upgrade-tab-panel.active {
+  display: block;
+}
+
+.upgrade-option h5 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.upgrade-option p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.upgrade-note {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.upgrade-benefits {
+  background: var(--background-secondary);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-top: 2rem;
+}
+
+.upgrade-benefits h5 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.upgrade-benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.upgrade-benefits li {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+.upgrade-benefits code {
+  background: var(--background);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: var(--primary-color);
 }
 
 /* Responsive Design */

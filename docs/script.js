@@ -318,6 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new InstallTabs(installTabs);
   }
 
+  // Initialize upgrade tabs
+  initUpgradeTabs();
+
   // Initialize smooth scrolling
   new SmoothScroll();
 
@@ -384,6 +387,29 @@ function addInteractiveEnhancements() {
     }
   `;
   document.head.appendChild(style);
+}
+
+// Upgrade Tabs Functionality
+function initUpgradeTabs() {
+  const upgradeTabButtons = document.querySelectorAll('.upgrade-tab-button');
+  const upgradeTabPanels = document.querySelectorAll('.upgrade-tab-panel');
+  
+  upgradeTabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetTab = button.getAttribute('data-upgrade-tab');
+      
+      // Remove active class from all buttons and panels
+      upgradeTabButtons.forEach(btn => btn.classList.remove('active'));
+      upgradeTabPanels.forEach(panel => panel.classList.remove('active'));
+      
+      // Add active class to clicked button and corresponding panel
+      button.classList.add('active');
+      const targetPanel = document.getElementById(targetTab);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
+    });
+  });
 }
 
 // Performance optimization: Debounce scroll events

@@ -137,43 +137,115 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Core Commands Section -->
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2>Powerful Features</h2>
-                <p>Everything you need to never lose context again</p>
+                <h2>Core Commands</h2>
+                <p>Four simple commands to never lose context again</p>
+            </div>
+            
+            <div class="commands-showcase">
+                <div class="command-card primary">
+                    <div class="command-header">
+                        <span class="command-name">brain save</span>
+                        <span class="command-description">Capture current context</span>
+                    </div>
+                    <div class="command-example">
+                        <code>brain save "debugging auth middleware - tokens expiring randomly"</code>
+                    </div>
+                    <div class="command-details">
+                        <span class="feature-tag">🔍 Git Analysis</span>
+                        <span class="feature-tag">🤖 AI Insights</span>
+                        <span class="feature-tag">💾 Local Storage</span>
+                    </div>
+                </div>
+                
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="command-name">brain resume</span>
+                        <span class="command-description">Show last context with AI analysis</span>
+                    </div>
+                    <div class="command-example">
+                        <code>brain resume</code>
+                    </div>
+                    <div class="command-details">
+                        <span class="feature-tag">💭 Your thoughts</span>
+                        <span class="feature-tag">🎯 Suggested steps</span>
+                        <span class="feature-tag">📊 Git status</span>
+                    </div>
+                </div>
+                
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="command-name">brain list</span>
+                        <span class="command-description">View recent context history</span>
+                    </div>
+                    <div class="command-example">
+                        <code>brain list 10</code>
+                    </div>
+                    <div class="command-details">
+                        <span class="feature-tag">📅 Timestamps</span>
+                        <span class="feature-tag">🌿 Branch filtering</span>
+                        <span class="feature-tag">🔍 Context search</span>
+                    </div>
+                </div>
+                
+                <div class="command-card">
+                    <div class="command-header">
+                        <span class="command-name">brain config</span>
+                        <span class="command-description">Manage settings and API keys</span>
+                    </div>
+                    <div class="command-example">
+                        <code>brain config set openai-key sk-...</code>
+                    </div>
+                    <div class="command-details">
+                        <span class="feature-tag">🔐 API keys</span>
+                        <span class="feature-tag">⚙️ Settings</span>
+                        <span class="feature-tag">🔒 Secure storage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="key-features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Brain CLI?</h2>
+                <p>Built for developers who need to context-switch frequently</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🔍</div>
-                    <h3>Git Context Analysis</h3>
-                    <p>Automatically captures your current branch, recent commits, and working directory changes to understand what you're working on.</p>
+                    <h3>Smart Git Analysis</h3>
+                    <p>Automatically captures branch, commits, file changes, and working directory status to understand your current work state.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🤖</div>
-                    <h3>AI-Powered Insights</h3>
-                    <p>Uses OpenAI to analyze your code context and provide intelligent suggestions for next steps and debugging strategies.</p>
+                    <h3>AI-Powered Context</h3>
+                    <p>Uses OpenAI to analyze your code changes and provide intelligent suggestions for debugging and next steps.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">💾</div>
-                    <h3>Local Storage</h3>
-                    <p>All your data stays on your machine. No cloud storage, no data sharing, works completely offline (except AI features).</p>
+                    <h3>Privacy First</h3>
+                    <p>All data stored locally in ~/.config/brain/. No cloud storage, no data sharing. Works offline except for AI features.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <h3>Lightning Fast</h3>
-                    <p>Single-file executable with no runtime dependencies. Captures context in seconds, resumes instantly.</p>
+                    <h3>Zero Dependencies</h3>
+                    <p>Single executable file, no runtime required. Captures context in seconds, resumes instantly.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌍</div>
                     <h3>Cross-Platform</h3>
-                    <p>Works on macOS, Linux, and Windows. Same great experience everywhere you code.</p>
+                    <p>Native binaries for macOS (Intel + Apple Silicon), Linux, and Windows. Same experience everywhere.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎨</div>
-                    <h3>Beautiful CLI</h3>
-                    <p>Thoughtfully designed interface with colors, emojis, and clear formatting that makes context switching a joy.</p>
+                    <h3>Developer UX</h3>
+                    <p>Beautiful terminal interface with colors, emojis, and clear formatting designed for daily use.</p>
                 </div>
             </div>
         </div>
@@ -266,6 +338,70 @@
                         📋 Copy
                     </button>
                     <code>brain --version && brain --help</code>
+                </div>
+            </div>
+            
+            <div class="upgrade-section">
+                <h4>🚀 Upgrading to New Releases</h4>
+                <p>When a new version is released, Brain CLI will automatically notify you. To upgrade:</p>
+                
+                <div class="upgrade-tabs">
+                    <div class="upgrade-tab-buttons">
+                        <button class="upgrade-tab-button active" data-upgrade-tab="auto">Automatic</button>
+                        <button class="upgrade-tab-button" data-upgrade-tab="manual">Manual</button>
+                    </div>
+                    
+                    <div class="upgrade-tab-content">
+                        <div class="upgrade-tab-panel active" id="auto">
+                            <div class="upgrade-option">
+                                <h5>✨ Automatic Upgrade (Recommended)</h5>
+                                <div class="code-block">
+                                    <button class="copy-btn" data-copy="brain upgrade">
+                                        📋 Copy
+                                    </button>
+                                    <code>brain upgrade</code>
+                                </div>
+                                <p class="upgrade-note">This command will download and install the latest version automatically.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="upgrade-tab-panel" id="manual">
+                            <div class="upgrade-option">
+                                <h5>🔄 Manual Upgrade</h5>
+                                <p>Simply re-run the installation command for your platform:</p>
+                                <div class="code-block">
+                                    <button class="copy-btn" data-copy="# macOS (Intel)
+curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-mac -o brain && chmod +x brain && sudo mv brain /usr/local/bin/
+
+# macOS (Apple Silicon)
+curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-mac-arm64 -o brain && chmod +x brain && sudo mv brain /usr/local/bin/
+
+# Linux
+curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-linux -o brain && chmod +x brain && sudo mv brain /usr/local/bin/">
+                                        📋 Copy
+                                    </button>
+                                    <code># macOS (Intel)
+curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-mac -o brain && chmod +x brain && sudo mv brain /usr/local/bin/
+
+# macOS (Apple Silicon)
+curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-mac-arm64 -o brain && chmod +x brain && sudo mv brain /usr/local/bin/
+
+# Linux
+curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-linux -o brain && chmod +x brain && sudo mv brain /usr/local/bin/</code>
+                                </div>
+                                <p class="upgrade-note">Your existing configuration and saved contexts will be preserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upgrade-benefits">
+                    <h5>📦 What's preserved during upgrades:</h5>
+                    <ul>
+                        <li>✅ All saved work contexts in <code>~/.config/brain/</code></li>
+                        <li>✅ Your OpenAI API key and settings</li>
+                        <li>✅ Command history and preferences</li>
+                    </ul>
                 </div>
             </div>
         </div>
