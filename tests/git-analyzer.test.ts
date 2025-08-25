@@ -27,7 +27,11 @@ Deno.test("GitAnalyzer.getCurrentBranch should parse git branch output", async (
       return Promise.resolve({ stdout: "", stderr: "", success: false });
     }
     if (command.includes("branch")) {
-      return Promise.resolve({ stdout: mockGitBranchOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: mockGitBranchOutput,
+        stderr: "",
+        success: true,
+      });
     }
     return Promise.resolve({ stdout: "", stderr: "", success: false });
   };
@@ -50,7 +54,11 @@ Deno.test("GitAnalyzer.getCurrentBranch should handle detached HEAD", async () =
       return Promise.resolve({ stdout: "", stderr: "", success: false });
     }
     if (command.includes("branch")) {
-      return Promise.resolve({ stdout: detachedHeadOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: detachedHeadOutput,
+        stderr: "",
+        success: true,
+      });
     }
     return Promise.resolve({ stdout: "", stderr: "", success: false });
   };
@@ -64,7 +72,11 @@ Deno.test("GitAnalyzer.getRecentCommits should parse git log output", async () =
 
   analyzer.runCommand = (command: string[]) => {
     if (command.includes("log")) {
-      return Promise.resolve({ stdout: mockGitLogOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: mockGitLogOutput,
+        stderr: "",
+        success: true,
+      });
     }
     return Promise.resolve({ stdout: "", stderr: "", success: false });
   };
@@ -87,7 +99,11 @@ Deno.test("GitAnalyzer.getWorkingDirectoryChanges should parse git status output
 
   analyzer.runCommand = (command: string[]) => {
     if (command.includes("status")) {
-      return Promise.resolve({ stdout: mockGitStatusOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: mockGitStatusOutput,
+        stderr: "",
+        success: true,
+      });
     }
     return Promise.resolve({ stdout: "", stderr: "", success: false });
   };
@@ -103,7 +119,11 @@ Deno.test("GitAnalyzer.getRepositoryPath should return current working directory
 
   analyzer.runCommand = (command: string[]) => {
     if (command.includes("rev-parse")) {
-      return Promise.resolve({ stdout: "/Users/dev/project/.git\n", stderr: "", success: true });
+      return Promise.resolve({
+        stdout: "/Users/dev/project/.git\n",
+        stderr: "",
+        success: true,
+      });
     }
     return Promise.resolve({ stdout: "", stderr: "", success: false });
   };
@@ -120,16 +140,32 @@ Deno.test("GitAnalyzer.analyze should combine all git information", async () => 
       return Promise.resolve({ stdout: "", stderr: "", success: false });
     }
     if (command.includes("branch")) {
-      return Promise.resolve({ stdout: mockGitBranchOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: mockGitBranchOutput,
+        stderr: "",
+        success: true,
+      });
     }
     if (command.includes("log")) {
-      return Promise.resolve({ stdout: mockGitLogOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: mockGitLogOutput,
+        stderr: "",
+        success: true,
+      });
     }
     if (command.includes("status")) {
-      return Promise.resolve({ stdout: mockGitStatusOutput, stderr: "", success: true });
+      return Promise.resolve({
+        stdout: mockGitStatusOutput,
+        stderr: "",
+        success: true,
+      });
     }
     if (command.includes("rev-parse")) {
-      return Promise.resolve({ stdout: "/Users/dev/project/.git\n", stderr: "", success: true });
+      return Promise.resolve({
+        stdout: "/Users/dev/project/.git\n",
+        stderr: "",
+        success: true,
+      });
     }
     return Promise.resolve({ stdout: "", stderr: "", success: false });
   };
