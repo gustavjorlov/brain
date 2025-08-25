@@ -45,10 +45,12 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
+    <!-- Main Two-Panel Layout -->
+    <main class="two-panel-layout">
+        <!-- Left Panel: Information & Features -->
+        <div class="left-panel">
+            <!-- Hero Section -->
+            <section class="hero">
                 <div class="hero-badge">
                     <span>🎉 v0.1.0 now available</span>
                 </div>
@@ -72,8 +74,99 @@
                         <span>View on GitHub</span>
                     </a>
                 </div>
-            </div>
-            <div class="hero-demo">
+            </section>
+
+            <!-- Problem/Solution Section -->
+            <section class="problem-solution">
+                <div class="section-grid">
+                    <div class="problem-card">
+                        <div class="card-icon">😩</div>
+                        <h3>The Problem</h3>
+                        <p>You're debugging auth middleware timing issues, your 6-year-old needs help, and when you return to your code 2 hours later, you've completely forgotten your debugging strategy and current theories about the bug.</p>
+                    </div>
+                    <div class="solution-card">
+                        <div class="card-icon">🧠</div>
+                        <h3>The Solution</h3>
+                        <p>Brain captures your thoughts + recent git activity, uses AI to understand your context, and shows you exactly where you left off with smart suggestions for what to try next.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core Commands Section -->
+            <section id="features" class="features">
+                <div class="section-header">
+                    <h2>Core Commands</h2>
+                    <p>Four simple commands to never lose context again</p>
+                </div>
+                
+                <div class="commands-showcase">
+                    <div class="command-card primary">
+                        <div class="command-header">
+                            <span class="command-name">brain save</span>
+                            <span class="command-description">Capture current context</span>
+                        </div>
+                        <div class="command-example">
+                            <code>brain save "debugging auth middleware - tokens expiring randomly"</code>
+                        </div>
+                        <div class="command-details">
+                            <span class="feature-tag">🔍 Git Analysis</span>
+                            <span class="feature-tag">🤖 AI Insights</span>
+                            <span class="feature-tag">💾 Local Storage</span>
+                        </div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-header">
+                            <span class="command-name">brain resume</span>
+                            <span class="command-description">Show last context with AI analysis</span>
+                        </div>
+                        <div class="command-example">
+                            <code>brain resume</code>
+                        </div>
+                        <div class="command-details">
+                            <span class="feature-tag">💭 Your thoughts</span>
+                            <span class="feature-tag">🎯 Suggested steps</span>
+                            <span class="feature-tag">📊 Git status</span>
+                        </div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-header">
+                            <span class="command-name">brain list</span>
+                            <span class="command-description">View recent context history</span>
+                        </div>
+                        <div class="command-example">
+                            <code>brain list 10</code>
+                        </div>
+                        <div class="command-details">
+                            <span class="feature-tag">📅 Timestamps</span>
+                            <span class="feature-tag">🌿 Branch filtering</span>
+                            <span class="feature-tag">🔍 Context search</span>
+                        </div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-header">
+                            <span class="command-name">brain config</span>
+                            <span class="command-description">Manage settings and API keys</span>
+                        </div>
+                        <div class="command-example">
+                            <code>brain config set openai-key sk-...</code>
+                        </div>
+                        <div class="command-details">
+                            <span class="feature-tag">🔐 API keys</span>
+                            <span class="feature-tag">⚙️ Settings</span>
+                            <span class="feature-tag">🔒 Secure storage</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Panel: Demo & Installation -->
+        <div class="right-panel">
+            <!-- Terminal Demo -->
+            <section class="hero-demo">
                 <div class="terminal">
                     <div class="terminal-header">
                         <div class="terminal-buttons">
@@ -115,149 +208,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Problem/Solution Section -->
-    <section class="problem-solution">
-        <div class="container">
-            <div class="section-grid">
-                <div class="problem-card">
-                    <div class="card-icon">😩</div>
-                    <h3>The Problem</h3>
-                    <p>You're debugging auth middleware timing issues, your 6-year-old needs help, and when you return to your code 2 hours later, you've completely forgotten your debugging strategy and current theories about the bug.</p>
+            <!-- Installation Section -->
+            <section id="install" class="installation">
+                <div class="section-header">
+                    <h2>Install Brain CLI</h2>
+                    <p>Get up and running in 30 seconds</p>
                 </div>
-                <div class="solution-card">
-                    <div class="card-icon">🧠</div>
-                    <h3>The Solution</h3>
-                    <p>Brain captures your thoughts + recent git activity, uses AI to understand your context, and shows you exactly where you left off with smart suggestions for what to try next.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Core Commands Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Core Commands</h2>
-                <p>Four simple commands to never lose context again</p>
-            </div>
-            
-            <div class="commands-showcase">
-                <div class="command-card primary">
-                    <div class="command-header">
-                        <span class="command-name">brain save</span>
-                        <span class="command-description">Capture current context</span>
-                    </div>
-                    <div class="command-example">
-                        <code>brain save "debugging auth middleware - tokens expiring randomly"</code>
-                    </div>
-                    <div class="command-details">
-                        <span class="feature-tag">🔍 Git Analysis</span>
-                        <span class="feature-tag">🤖 AI Insights</span>
-                        <span class="feature-tag">💾 Local Storage</span>
-                    </div>
-                </div>
-                
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="command-name">brain resume</span>
-                        <span class="command-description">Show last context with AI analysis</span>
-                    </div>
-                    <div class="command-example">
-                        <code>brain resume</code>
-                    </div>
-                    <div class="command-details">
-                        <span class="feature-tag">💭 Your thoughts</span>
-                        <span class="feature-tag">🎯 Suggested steps</span>
-                        <span class="feature-tag">📊 Git status</span>
-                    </div>
-                </div>
-                
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="command-name">brain list</span>
-                        <span class="command-description">View recent context history</span>
-                    </div>
-                    <div class="command-example">
-                        <code>brain list 10</code>
-                    </div>
-                    <div class="command-details">
-                        <span class="feature-tag">📅 Timestamps</span>
-                        <span class="feature-tag">🌿 Branch filtering</span>
-                        <span class="feature-tag">🔍 Context search</span>
-                    </div>
-                </div>
-                
-                <div class="command-card">
-                    <div class="command-header">
-                        <span class="command-name">brain config</span>
-                        <span class="command-description">Manage settings and API keys</span>
-                    </div>
-                    <div class="command-example">
-                        <code>brain config set openai-key sk-...</code>
-                    </div>
-                    <div class="command-details">
-                        <span class="feature-tag">🔐 API keys</span>
-                        <span class="feature-tag">⚙️ Settings</span>
-                        <span class="feature-tag">🔒 Secure storage</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Features Section -->
-    <section class="key-features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Why Brain CLI?</h2>
-                <p>Built for developers who need to context-switch frequently</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h3>Smart Git Analysis</h3>
-                    <p>Automatically captures branch, commits, file changes, and working directory status to understand your current work state.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>AI-Powered Context</h3>
-                    <p>Uses OpenAI to analyze your code changes and provide intelligent suggestions for debugging and next steps.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3>Privacy First</h3>
-                    <p>All data stored locally in ~/.config/brain/. No cloud storage, no data sharing. Works offline except for AI features.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Zero Dependencies</h3>
-                    <p>Single executable file, no runtime required. Captures context in seconds, resumes instantly.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Cross-Platform</h3>
-                    <p>Native binaries for macOS (Intel + Apple Silicon), Linux, and Windows. Same experience everywhere.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Developer UX</h3>
-                    <p>Beautiful terminal interface with colors, emojis, and clear formatting designed for daily use.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Installation Section -->
-    <section id="install" class="installation">
-        <div class="container">
-            <div class="section-header">
-                <h2>Install Brain CLI</h2>
-                <p>Get up and running in 30 seconds</p>
-            </div>
             
             <div class="install-tabs">
                 <div class="tab-buttons">
@@ -453,11 +411,12 @@ curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-l
                     <code>brain resume</code>
                 </div>
                 <p>Shows your thoughts + AI analysis + suggested next steps</p>
-            </div>
+                </div>
+            </section>
         </div>
-    </section>
+    </main>
 
-    <!-- Testimonials / Use Cases -->
+    <!-- Additional Sections -->
     <section class="use-cases">
         <div class="container">
             <div class="section-header">
