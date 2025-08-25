@@ -18,11 +18,6 @@ chmod +x brain-mac-arm64 && sudo mv brain-mac-arm64 /usr/local/bin/brain
 chmod +x brain-linux && sudo mv brain-linux /usr/local/bin/brain
 ```
 
-### Windows
-
-1. Copy `brain.exe` to a directory in your PATH
-2. Or add the current directory to your PATH
-
 ## Verify Installation
 
 ```bash

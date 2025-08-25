@@ -130,9 +130,6 @@ jobs:
           - os: macos-latest
             target: aarch64-apple-darwin
             artifact: brain-mac-arm64
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            artifact: brain.exe
 
     steps:
       - name: Checkout code
@@ -186,16 +183,10 @@ jobs:
             --output bin/${{ matrix.artifact }} \
             src/main.ts
 
-      - name: Test binary (Unix)
-        if: runner.os != 'Windows'
+      - name: Test binary
         run: |
           chmod +x bin/${{ matrix.artifact }}
           ./bin/${{ matrix.artifact }} --version
-
-      - name: Test binary (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          .\bin\${{ matrix.artifact }} --version
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -225,9 +216,8 @@ jobs:
           cp artifacts/brain-linux/brain-linux release-assets/
           cp artifacts/brain-mac/brain-mac release-assets/
           cp artifacts/brain-mac-arm64/brain-mac-arm64 release-assets/
-          cp artifacts/brain.exe/brain.exe release-assets/
 
-          # Make Unix binaries executable
+          # Make binaries executable
           chmod +x release-assets/brain-linux
           chmod +x release-assets/brain-mac
           chmod +x release-assets/brain-mac-arm64
@@ -309,7 +299,7 @@ jobs:
           - Core CLI functionality for capturing and resuming development context
           - AI-powered context analysis with OpenAI integration
           - Git integration for automatic repository state detection
-          - Cross-platform support (Linux, macOS Intel/ARM, Windows)
+          - Cross-platform support (Linux, macOS Intel/ARM)
 
           ## 📦 Installation
 
@@ -325,7 +315,6 @@ jobs:
           - **Linux (x64)**: [brain-linux](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain-linux)
           - **macOS (Intel)**: [brain-mac](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain-mac)
           - **macOS (ARM64)**: [brain-mac-arm64](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain-mac-arm64)
-          - **Windows**: [brain.exe](https://github.com/${{ github.repository }}/releases/download/${{ needs.validate-version.outputs.tag }}/brain.exe)
 
           ### Verification
 

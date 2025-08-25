@@ -21,7 +21,6 @@ const executables = [
   "brain-linux",
   "brain-mac",
   "brain-mac-arm64",
-  "brain.exe",
 ];
 
 for (const executable of executables) {
@@ -70,10 +69,6 @@ chmod +x brain-mac-arm64 && sudo mv brain-mac-arm64 /usr/local/bin/brain
 \`\`\`bash
 chmod +x brain-linux && sudo mv brain-linux /usr/local/bin/brain
 \`\`\`
-
-### Windows
-1. Copy \`brain.exe\` to a directory in your PATH
-2. Or add the current directory to your PATH
 
 ## Verify Installation
 \`\`\`bash

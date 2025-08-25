@@ -4,7 +4,6 @@ const targets = [
   { platform: "x86_64-unknown-linux-gnu", suffix: "-linux" },
   { platform: "x86_64-apple-darwin", suffix: "-mac" },
   { platform: "aarch64-apple-darwin", suffix: "-mac-arm64" },
-  { platform: "x86_64-pc-windows-msvc", suffix: ".exe" },
 ];
 
 console.log("🔨 Building Brain CLI for all platforms...\n");

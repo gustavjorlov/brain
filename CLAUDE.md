@@ -105,7 +105,7 @@ resume where you left off.
 ### ✅ Phase 5: Build & Distribution (Complete)
 
 - [x] Cross-platform build script with all target platforms
-- [x] Executable testing for Linux, macOS (Intel/ARM), Windows
+- [x] Executable testing for Linux, macOS (Intel/ARM)
 - [x] Release packaging with checksums and installation guide
 - [x] Distribution documentation and user guides
 - [x] Production-ready release v0.1.0 with all deliverables

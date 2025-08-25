@@ -104,7 +104,7 @@ resume where you left off.
 ### ⏳ Phase 5: Build & Distribution (Pending)
 
 - [ ] Cross-platform build script (`scripts/build-cross-platform.ts`)
-- [ ] Executable testing for Linux, macOS, Windows
+- [ ] Executable testing for Linux, macOS
 - [ ] Local development installation testing
 - [ ] Distribution documentation
 

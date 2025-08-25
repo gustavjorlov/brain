@@ -28,7 +28,7 @@ The website consists of:
   - Hero section with animated terminal demo
   - Problem/Solution section explaining the value proposition
   - Features grid showcasing 6 key features
-  - Installation tabs for macOS, Linux, Windows, and source builds
+  - Installation tabs for macOS, Linux, and source builds
   - Quick start guide with 3 simple steps
   - Use cases section targeting different developer personas
   - Footer with links and branding
@@ -98,7 +98,6 @@ The website consists of:
   - `brain-mac` for Intel Macs
   - `brain-mac-arm64` for Apple Silicon Macs
   - `brain-linux` for Linux systems
-  - `brain.exe` for Windows
 - Links point to
   `github.com/anthropics/brain-cli/releases/latest/download/[filename]`
 
@@ -173,7 +172,6 @@ brain-cli/
 │   ├── brain-linux               # Linux executable
 │   ├── brain-mac                 # macOS Intel executable
 │   ├── brain-mac-arm64           # macOS ARM64 executable
-│   ├── brain.exe                 # Windows executable
 │   ├── checksums.txt             # SHA256 checksums
 │   └── *.md                      # Documentation files
 └── [other project files]

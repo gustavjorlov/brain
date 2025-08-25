@@ -194,7 +194,6 @@ Create automated builds for:
 
 - Linux (x86_64)
 - macOS (x86_64 & ARM64)
-- Windows (x86_64)
 
 **14. Local Development Installation**
 
@@ -252,7 +251,6 @@ const targets = [
   { platform: "x86_64-unknown-linux-gnu", suffix: "-linux" },
   { platform: "x86_64-apple-darwin", suffix: "-mac" },
   { platform: "aarch64-apple-darwin", suffix: "-mac-arm64" },
-  { platform: "x86_64-pc-windows-msvc", suffix: ".exe" },
 ];
 
 for (const target of targets) {

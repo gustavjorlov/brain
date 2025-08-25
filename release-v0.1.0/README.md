@@ -39,9 +39,6 @@ chmod +x brain && sudo mv brain /usr/local/bin/
 # Linux
 curl -L https://github.com/anthropics/brain-cli/releases/latest/download/brain-linux -o brain
 chmod +x brain && sudo mv brain /usr/local/bin/
-
-# Windows
-# Download brain.exe from releases and add to PATH
 ```
 
 ### Option 2: Install from Source (Requires Deno)

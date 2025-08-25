@@ -15,7 +15,7 @@ implementing comprehensive CI/CD practices.
 **Features:**
 
 - ✅ Version validation from `deno.json` and tags
-- ✅ Cross-platform binary builds (Linux, macOS Intel/ARM, Windows)
+- ✅ Cross-platform binary builds (Linux, macOS Intel/ARM)
 - ✅ Automated testing before release
 - ✅ GitHub release creation with release notes
 - ✅ Binary asset uploads with checksums
@@ -27,7 +27,6 @@ implementing comprehensive CI/CD practices.
 - `x86_64-unknown-linux-gnu` → `brain-linux`
 - `x86_64-apple-darwin` → `brain-mac`
 - `aarch64-apple-darwin` → `brain-mac-arm64`
-- `x86_64-pc-windows-msvc` → `brain.exe`
 
 ### 2. Continuous Integration (`ci.yml`)
 
@@ -38,7 +37,7 @@ implementing comprehensive CI/CD practices.
 
 **Features:**
 
-- ✅ Multi-platform testing (Ubuntu, macOS, Windows)
+- ✅ Multi-platform testing (Ubuntu, macOS)
 - ✅ Code formatting checks (`deno fmt`)
 - ✅ Linting (`deno lint`)
 - ✅ Type checking (`deno check`)
