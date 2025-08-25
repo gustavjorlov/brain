@@ -1,0 +1,139 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - prerelease
+        default: 'patch'
+      prerelease_id:
+        description: 'Prerelease identifier (e.g., beta, alpha, rc)'
+        required: false
+        type: string
+        default: 'beta'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump-version:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+          
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+      - name: Get current version
+        id: current-version
+        run: |
+          CURRENT_VERSION=$(jq -r '.version' deno.json)
+          echo "current=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+          
+      - name: Calculate new version
+        id: new-version
+        run: |
+          CURRENT="${{ steps.current-version.outputs.current }}"
+          TYPE="${{ inputs.version_type }}"
+          PRERELEASE_ID="${{ inputs.prerelease_id }}"
+          
+          # Parse current version
+          if [[ "$CURRENT" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-(.+))?$ ]]; then
+            MAJOR=${BASH_REMATCH[1]}
+            MINOR=${BASH_REMATCH[2]}
+            PATCH=${BASH_REMATCH[3]}
+            PRERELEASE=${BASH_REMATCH[5]}
+          else
+            echo "Error: Invalid current version format: $CURRENT"
+            exit 1
+          fi
+          
+          # Calculate new version based on type
+          case "$TYPE" in
+            major)
+              NEW_VERSION="$((MAJOR + 1)).0.0"
+              ;;
+            minor)
+              NEW_VERSION="$MAJOR.$((MINOR + 1)).0"
+              ;;
+            patch)
+              NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+              ;;
+            prerelease)
+              if [[ -n "$PRERELEASE" ]]; then
+                # Increment existing prerelease
+                if [[ "$PRERELEASE" =~ ^(.+)\.([0-9]+)$ ]]; then
+                  PRE_ID=${BASH_REMATCH[1]}
+                  PRE_NUM=${BASH_REMATCH[2]}
+                  NEW_VERSION="$MAJOR.$MINOR.$PATCH-$PRE_ID.$((PRE_NUM + 1))"
+                else
+                  NEW_VERSION="$MAJOR.$MINOR.$PATCH-$PRERELEASE.1"
+                fi
+              else
+                # Create new prerelease
+                NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))-$PRERELEASE_ID.0"
+              fi
+              ;;
+            *)
+              echo "Error: Invalid version type: $TYPE"
+              exit 1
+              ;;
+          esac
+          
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+          
+      - name: Update deno.json
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new }}"
+          jq --arg version "$NEW_VERSION" '.version = $version' deno.json > deno.json.tmp
+          mv deno.json.tmp deno.json
+          
+      - name: Run tests
+        run: deno task test
+        
+      - name: Create version bump commit
+        run: |
+          git add deno.json
+          git commit -m "Bump version to ${{ steps.new-version.outputs.new }}"
+          
+      - name: Create and push tag
+        run: |
+          git tag "${{ steps.new-version.outputs.tag }}"
+          git push origin main
+          git push origin "${{ steps.new-version.outputs.tag }}"
+          
+      - name: Create release summary
+        run: |
+          echo "✅ Version bumped successfully!"
+          echo ""
+          echo "📋 Version Summary:"
+          echo "  Previous: ${{ steps.current-version.outputs.current }}"
+          echo "  New: ${{ steps.new-version.outputs.new }}"
+          echo "  Tag: ${{ steps.new-version.outputs.tag }}"
+          echo "  Type: ${{ inputs.version_type }}"
+          echo ""
+          echo "🚀 Release workflow will be triggered automatically."
+          echo "🔗 Track progress: https://github.com/${{ github.repository }}/actions"

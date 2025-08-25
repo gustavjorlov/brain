@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Monitor GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    assignees:
+      - "gustavjorlov"
+    reviewers:
+      - "gustavjorlov"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    
+  # Note: Deno uses JSR and web-based imports which don't require 
+  # traditional dependency management. Dependabot primarily monitors
+  # the GitHub Actions dependencies above.

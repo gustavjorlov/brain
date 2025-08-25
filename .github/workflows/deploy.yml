@@ -86,7 +86,7 @@ jobs:
           User-agent: *
           Allow: /
           
-          Sitemap: https://anthropics.github.io/brain-cli/sitemap.xml
+          Sitemap: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/sitemap.xml
           EOF
           
           # Create a simple sitemap
@@ -94,7 +94,7 @@ jobs:
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
-              <loc>https://anthropics.github.io/brain-cli/</loc>
+              <loc>https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/</loc>
               <lastmod>$(date -u +%Y-%m-%d)</lastmod>
               <changefreq>weekly</changefreq>
               <priority>1.0</priority>
@@ -129,5 +129,5 @@ jobs:
       - name: Deployment Success
         run: |
           echo "🚀 Brain CLI website deployed successfully!"
-          echo "📦 Site URL: https://anthropics.github.io/brain-cli/"
+          echo "📦 Site URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           echo "✨ Deployment completed at $(date -u)"
