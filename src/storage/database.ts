@@ -74,7 +74,7 @@ export class Storage {
     );
   }
 
-  async getConfig(): Promise<BrainConfig> {
+  getConfig(): BrainConfig {
     if (!this.config) {
       throw new Error("Storage not initialized");
     }
@@ -95,12 +95,12 @@ export class Storage {
     await this.saveData();
   }
 
-  async getWorkNote(id: string): Promise<WorkNote | null> {
+  getWorkNote(id: string): WorkNote | null {
     const workNote = this.data.workNotes[id];
     return workNote ? { ...workNote } : null;
   }
 
-  async getLatestWorkNote(): Promise<WorkNote | null> {
+  getLatestWorkNote(): WorkNote | null {
     const workNotes = Object.values(this.data.workNotes);
 
     if (workNotes.length === 0) {
@@ -115,7 +115,7 @@ export class Storage {
     return { ...workNotes[0] };
   }
 
-  async getRecentWorkNotes(limit: number = 5): Promise<WorkNote[]> {
+  getRecentWorkNotes(limit: number = 5): WorkNote[] {
     const workNotes = Object.values(this.data.workNotes);
 
     if (workNotes.length === 0) {
@@ -130,7 +130,7 @@ export class Storage {
     return workNotes.slice(0, limit).map((note) => ({ ...note }));
   }
 
-  async getAllWorkNotes(): Promise<WorkNote[]> {
+  getAllWorkNotes(): WorkNote[] {
     const workNotes = Object.values(this.data.workNotes);
 
     // Sort by timestamp (newest first)
@@ -150,7 +150,7 @@ export class Storage {
     return false;
   }
 
-  async getWorkNotesByBranch(branch: string): Promise<WorkNote[]> {
+  getWorkNotesByBranch(branch: string): WorkNote[] {
     const workNotes = Object.values(this.data.workNotes);
 
     const branchNotes = workNotes.filter((note) =>

@@ -45,7 +45,7 @@ export class BrainCLI {
 
   async initialize(): Promise<void> {
     await this.storage.initialize();
-    const config = await this.storage.getConfig();
+    const config = this.storage.getConfig();
 
     if (config.openaiApiKey && config.enableAI) {
       this.aiClient = new AIClient(config.openaiApiKey, config.aiModel);
@@ -53,7 +53,7 @@ export class BrainCLI {
   }
 
   async checkFirstTimeSetup(): Promise<void> {
-    const config = await this.storage.getConfig();
+    const config = this.storage.getConfig();
     const stats = await this.storage.getStorageStats();
 
     // Show welcome message for first-time users
@@ -87,7 +87,7 @@ export class BrainCLI {
       };
 
       // Get AI interpretation if enabled and available
-      const config = await this.storage.getConfig();
+      const config = this.storage.getConfig();
       if (!options.noAi && config.enableAI && this.aiClient) {
         try {
           console.log("🤖 Getting AI analysis...");
@@ -150,7 +150,7 @@ export class BrainCLI {
     options: { raw?: boolean; since?: string } = {},
   ): Promise<void> {
     try {
-      const latestNote = await this.storage.getLatestWorkNote();
+      const latestNote = this.storage.getLatestWorkNote();
 
       if (!latestNote) {
         console.log("📝 No previous context found");
@@ -234,18 +234,18 @@ export class BrainCLI {
     }
   }
 
-  async listCommand(
+  listCommand(
     count = 5,
     options: { branch?: string } = {},
-  ): Promise<void> {
+  ): void {
     try {
       let notes: WorkNote[];
 
       if (options.branch) {
-        notes = await this.storage.getWorkNotesByBranch(options.branch);
+        notes = this.storage.getWorkNotesByBranch(options.branch);
         notes = notes.slice(0, count);
       } else {
-        notes = await this.storage.getRecentWorkNotes(count);
+        notes = this.storage.getRecentWorkNotes(count);
       }
 
       if (notes.length === 0) {
@@ -295,10 +295,10 @@ export class BrainCLI {
     value?: string,
   ): Promise<void> {
     try {
-      const config = await this.storage.getConfig();
+      const config = this.storage.getConfig();
 
       switch (action) {
-        case "set":
+        case "set": {
           if (!key || !value) {
             console.error("❌ Usage: brain config set <key> <value>");
             console.log("\n   Available configuration keys:");
@@ -336,7 +336,7 @@ export class BrainCLI {
               }
               updates.openaiApiKey = value;
               break;
-            case "max-commits":
+            case "max-commits": {
               const maxCommits = parseInt(value, 10);
               if (isNaN(maxCommits) || maxCommits < 1) {
                 console.error("❌ max-commits must be a positive number");
@@ -344,6 +344,7 @@ export class BrainCLI {
               }
               updates.maxCommits = maxCommits;
               break;
+            }
             case "ai-model":
               updates.aiModel = value;
               break;
@@ -370,8 +371,9 @@ export class BrainCLI {
             await this.initialize();
           }
           break;
+        }
 
-        case "get":
+        case "get": {
           if (!key) {
             console.error("❌ Usage: brain config get <key>");
             Deno.exit(1);
@@ -400,8 +402,9 @@ export class BrainCLI {
 
           console.log(`${key}: ${displayValue}`);
           break;
+        }
 
-        case "list":
+        case "list": {
           console.log("\n⚙️  Current configuration:\n");
           console.log(
             `openai-key: ${
@@ -415,10 +418,12 @@ export class BrainCLI {
           console.log(`enable-ai: ${config.enableAI}`);
           console.log(`storage-path: ${config.storagePath}`);
           break;
+        }
 
-        default:
+        default: {
           console.error("❌ Usage: brain config <set|get|list> [key] [value]");
           Deno.exit(1);
+        }
       }
     } catch (error) {
       console.error(

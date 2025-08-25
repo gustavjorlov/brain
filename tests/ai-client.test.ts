@@ -1,6 +1,6 @@
 import { assertEquals, assertRejects, assertStringIncludes } from "@std/assert";
 import { AIClient } from "../src/ai/client.ts";
-import type { AIInterpretation, GitContext } from "../src/storage/models.ts";
+import type { GitContext } from "../src/storage/models.ts";
 
 // Mock OpenAI API response
 const mockOpenAIResponse = {
@@ -79,11 +79,11 @@ Deno.test("AIClient should handle successful OpenAI response", async () => {
 
   // Mock the fetch function
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    return new Response(JSON.stringify(mockOpenAIResponse), {
+  globalThis.fetch = () => {
+    return Promise.resolve(new Response(JSON.stringify(mockOpenAIResponse), {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    });
+    }));
   };
 
   const result = await client.analyzeContext(
@@ -112,8 +112,8 @@ Deno.test("AIClient should handle OpenAI API errors", async () => {
 
   // Mock fetch to return error
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    return new Response(
+  globalThis.fetch = () => {
+    return Promise.resolve(new Response(
       JSON.stringify({
         error: {
           message: "Invalid API key",
@@ -124,7 +124,7 @@ Deno.test("AIClient should handle OpenAI API errors", async () => {
         status: 401,
         headers: { "Content-Type": "application/json" },
       },
-    );
+    ));
   };
 
   await assertRejects(
@@ -141,8 +141,8 @@ Deno.test("AIClient should handle network errors", async () => {
 
   // Mock fetch to throw network error
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    throw new Error("Network error");
+  globalThis.fetch = () => {
+    return Promise.reject(new Error("Network error"));
   };
 
   await assertRejects(
@@ -159,8 +159,8 @@ Deno.test("AIClient should handle invalid JSON response", async () => {
 
   // Mock fetch to return invalid JSON in content
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    return new Response(
+  globalThis.fetch = () => {
+    return Promise.resolve(new Response(
       JSON.stringify({
         choices: [
           {
@@ -174,7 +174,7 @@ Deno.test("AIClient should handle invalid JSON response", async () => {
         status: 200,
         headers: { "Content-Type": "application/json" },
       },
-    );
+    ));
   };
 
   await assertRejects(
@@ -191,11 +191,11 @@ Deno.test("AIClient should handle missing choices in response", async () => {
 
   // Mock fetch to return response without choices
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    return new Response(JSON.stringify({}), {
+  globalThis.fetch = () => {
+    return Promise.resolve(new Response(JSON.stringify({}), {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    });
+    }));
   };
 
   await assertRejects(
@@ -216,15 +216,15 @@ Deno.test("AIClient should use correct OpenAI API parameters", async () => {
 
   // Mock fetch to capture the request
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
-    capturedUrl = input.toString();
+  globalThis.fetch = (_input: RequestInfo | URL, init?: RequestInit) => {
+    capturedUrl = _input.toString();
     capturedMethod = init?.method || "GET";
     capturedBody = init?.body as string || null;
 
-    return new Response(JSON.stringify(mockOpenAIResponse), {
+    return Promise.resolve(new Response(JSON.stringify(mockOpenAIResponse), {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    });
+    }));
   };
 
   await client.analyzeContext("test message", mockGitContext);
@@ -246,12 +246,12 @@ Deno.test("AIClient should use default model when not specified", async () => {
   let capturedBody: string | null = null;
 
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+  globalThis.fetch = (_input: RequestInfo | URL, init?: RequestInit) => {
     capturedBody = init?.body as string || null;
-    return new Response(JSON.stringify(mockOpenAIResponse), {
+    return Promise.resolve(new Response(JSON.stringify(mockOpenAIResponse), {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    });
+    }));
   };
 
   await client.analyzeContext("test message", mockGitContext);
@@ -267,8 +267,8 @@ Deno.test("AIClient should handle rate limiting", async () => {
 
   // Mock fetch to return rate limit error
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    return new Response(
+  globalThis.fetch = () => {
+    return Promise.resolve(new Response(
       JSON.stringify({
         error: {
           message: "Rate limit exceeded",
@@ -279,7 +279,7 @@ Deno.test("AIClient should handle rate limiting", async () => {
         status: 429,
         headers: { "Content-Type": "application/json" },
       },
-    );
+    ));
   };
 
   await assertRejects(
@@ -296,8 +296,8 @@ Deno.test("AIClient should validate required fields in AI response", async () =>
 
   // Mock response with missing required fields
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    return new Response(
+  globalThis.fetch = () => {
+    return Promise.resolve(new Response(
       JSON.stringify({
         choices: [
           {
@@ -314,7 +314,7 @@ Deno.test("AIClient should validate required fields in AI response", async () =>
         status: 200,
         headers: { "Content-Type": "application/json" },
       },
-    );
+    ));
   };
 
   await assertRejects(
@@ -332,7 +332,7 @@ Deno.test("AIClient should include authorization header", async () => {
   let capturedHeaders: Record<string, string> = {};
 
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+  globalThis.fetch = (_input: RequestInfo | URL, init?: RequestInit) => {
     const headers = init?.headers;
     if (headers) {
       if (headers instanceof Headers) {
@@ -341,10 +341,10 @@ Deno.test("AIClient should include authorization header", async () => {
         capturedHeaders = { ...headers as Record<string, string> };
       }
     }
-    return new Response(JSON.stringify(mockOpenAIResponse), {
+    return Promise.resolve(new Response(JSON.stringify(mockOpenAIResponse), {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    });
+    }));
   };
 
   await client.analyzeContext("test message", mockGitContext);

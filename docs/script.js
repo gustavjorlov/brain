@@ -81,7 +81,7 @@ class TerminalDemo {
       `<span class="terminal-prompt">${line.prompt}</span>`;
 
     // Type command
-    for (let char of line.command) {
+    for (const _char of line.command) {
       await this.wait(50 + Math.random() * 50);
       lineElement.innerHTML =
         `<span class="terminal-prompt">${line.prompt}</span><span class="terminal-command">${
@@ -95,7 +95,7 @@ class TerminalDemo {
     await this.wait(300);
 
     // Show output
-    for (let output of line.output) {
+    for (const output of line.output) {
       await this.wait(200);
       const outputElement = document.createElement("div");
       outputElement.className = "terminal-line";
@@ -160,7 +160,7 @@ class InstallTabs {
             copyBtn.style.background = "rgba(255, 255, 255, 0.1)";
             copyBtn.style.borderColor = "rgba(255, 255, 255, 0.2)";
           }, 2000);
-        } catch (err) {
+        } catch (_err) {
           copyBtn.textContent = "Failed";
           setTimeout(() => {
             copyBtn.textContent = "Copy";
@@ -192,7 +192,7 @@ class SmoothScroll {
           const headerHeight = document.querySelector(".header").offsetHeight;
           const targetPosition = targetElement.offsetTop - headerHeight - 20;
 
-          window.scrollTo({
+          globalThis.scrollTo({
             top: targetPosition,
             behavior: "smooth",
           });
@@ -210,8 +210,8 @@ class HeaderScroll {
   }
 
   init() {
-    window.addEventListener("scroll", () => {
-      const scrollY = window.scrollY;
+    globalThis.addEventListener("scroll", () => {
+      const scrollY = globalThis.scrollY;
 
       if (scrollY > 50) {
         this.header.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
@@ -255,7 +255,7 @@ class ScrollAnimations {
 }
 
 // GitHub Stars Counter (if needed in future)
-class GitHubStats {
+class _GitHubStats {
   constructor() {
     this.repoUrl = "anthropics/brain-cli"; // Update when real repo exists
   }
@@ -270,7 +270,7 @@ class GitHubStats {
         stars: data.stargazers_count,
         forks: data.forks_count,
       };
-    } catch (error) {
+    } catch (_error) {
       console.log("GitHub stats not available");
       return { stars: 0, forks: 0 };
     }
@@ -302,7 +302,7 @@ class MobileMenu {
 
     // Handle responsive behavior
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
+      if (globalThis.innerWidth <= 768) {
         menuButton.style.display = "block";
         navLinks.style.display = "none";
       } else {
@@ -327,7 +327,7 @@ class MobileMenu {
       }
     });
 
-    window.addEventListener("resize", handleResize);
+    globalThis.addEventListener("resize", handleResize);
     handleResize();
   }
 }
@@ -441,7 +441,7 @@ function initUpgradeTabs() {
 }
 
 // Performance optimization: Debounce scroll events
-function debounce(func, wait) {
+function _debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
     const later = () => {

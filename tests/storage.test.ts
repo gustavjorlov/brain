@@ -1,12 +1,12 @@
 import { assertEquals, assertExists, assertRejects } from "@std/assert";
 import { Storage } from "../src/storage/database.ts";
-import type { BrainConfig, WorkNote } from "../src/storage/models.ts";
+import type { WorkNote } from "../src/storage/models.ts";
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
 
 // Test storage directory
 const TEST_STORAGE_PATH = "./test-storage";
-const TEST_CONFIG_PATH = join(TEST_STORAGE_PATH, "config.json");
+const _TEST_CONFIG_PATH = join(TEST_STORAGE_PATH, "config.json");
 const TEST_DATA_PATH = join(TEST_STORAGE_PATH, "contexts.json");
 
 // Clean up test storage before and after tests
@@ -24,7 +24,7 @@ Deno.test("Storage should initialize with default config", async () => {
   const storage = new Storage(TEST_STORAGE_PATH);
   await storage.initialize();
 
-  const config = await storage.getConfig();
+  const config = storage.getConfig();
   assertEquals(config.maxCommits, 10);
   assertEquals(config.aiModel, "gpt-4");
   assertEquals(config.enableAI, true);
@@ -58,7 +58,7 @@ Deno.test("Storage should save and retrieve work notes", async () => {
 
   await storage.saveWorkNote(workNote);
 
-  const retrieved = await storage.getWorkNote("test-note-1");
+  const retrieved = storage.getWorkNote("test-note-1");
   assertEquals(retrieved?.id, "test-note-1");
   assertEquals(retrieved?.message, "debugging auth middleware");
   assertEquals(retrieved?.gitContext.currentBranch, "feature/auth");
@@ -72,7 +72,7 @@ Deno.test("Storage should return null for non-existent work note", async () => {
   const storage = new Storage(TEST_STORAGE_PATH);
   await storage.initialize();
 
-  const result = await storage.getWorkNote("non-existent");
+  const result = storage.getWorkNote("non-existent");
   assertEquals(result, null);
 
   await cleanupTestStorage();
@@ -111,7 +111,7 @@ Deno.test("Storage should get latest work note", async () => {
   await storage.saveWorkNote(note1);
   await storage.saveWorkNote(note2);
 
-  const latest = await storage.getLatestWorkNote();
+  const latest = storage.getLatestWorkNote();
   assertEquals(latest?.id, "note-2");
   assertEquals(latest?.message, "second note");
 
@@ -124,7 +124,7 @@ Deno.test("Storage should return null when no work notes exist", async () => {
   const storage = new Storage(TEST_STORAGE_PATH);
   await storage.initialize();
 
-  const latest = await storage.getLatestWorkNote();
+  const latest = storage.getLatestWorkNote();
   assertEquals(latest, null);
 
   await cleanupTestStorage();
@@ -152,7 +152,7 @@ Deno.test("Storage should get recent work notes with limit", async () => {
     await storage.saveWorkNote(note);
   }
 
-  const recent = await storage.getRecentWorkNotes(3);
+  const recent = storage.getRecentWorkNotes(3);
   assertEquals(recent.length, 3);
 
   // Should be in reverse chronological order (newest first)
@@ -176,7 +176,7 @@ Deno.test("Storage should update config", async () => {
     enableAI: false,
   });
 
-  const config = await storage.getConfig();
+  const config = storage.getConfig();
   assertEquals(config.openaiApiKey, "sk-test-key");
   assertEquals(config.maxCommits, 15);
   assertEquals(config.aiModel, "gpt-3.5-turbo");
@@ -228,7 +228,7 @@ Deno.test("Storage should handle concurrent access safely", async () => {
 
   await Promise.all(promises);
 
-  const recent = await storage.getRecentWorkNotes(10);
+  const recent = storage.getRecentWorkNotes(10);
   assertEquals(recent.length, 10);
 
   await cleanupTestStorage();
@@ -270,7 +270,7 @@ Deno.test("Storage should handle corrupted data files gracefully", async () => {
   };
 
   await storage.saveWorkNote(workNote);
-  const retrieved = await storage.getWorkNote("recovery-test");
+  const retrieved = storage.getWorkNote("recovery-test");
   assertExists(retrieved);
 
   await cleanupTestStorage();
