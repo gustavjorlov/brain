@@ -825,43 +825,7 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Footer */
-.footer {
-  padding: 3rem 0;
-  background: var(--background-dark);
-  color: #d1d5db;
-  text-align: center;
-}
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.footer-links {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-}
-
-.footer-links a {
-  color: #9ca3af;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: var(--primary-color);
-}
-
-.footer-bottom {
-  padding-top: 2rem;
-  border-top: 1px solid #374151;
-  color: #6b7280;
-  font-size: 0.9rem;
-}
 
 /* Upgrade Section */
 .upgrade-section {
