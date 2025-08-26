@@ -23,6 +23,11 @@ export interface GitContext {
   repositoryPath: string;
 }
 
+export interface RepositoryInfo {
+  path: string;              // Absolute repository root path  
+  identifier: string;        // Computed unique identifier (normalized path)
+}
+
 export interface AIInterpretation {
   summary: string;
   technicalContext: string;
@@ -36,6 +41,7 @@ export interface WorkNote {
   message: string;
   timestamp: string;
   gitContext: GitContext;
+  repositoryInfo: RepositoryInfo;
   aiInterpretation?: AIInterpretation;
 }
 

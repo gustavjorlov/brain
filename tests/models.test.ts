@@ -3,6 +3,7 @@ import type {
   AIInterpretation,
   BrainConfig,
   GitContext,
+  RepositoryInfo,
   WorkNote,
 } from "../src/storage/models.ts";
 
@@ -33,6 +34,18 @@ Deno.test("GitContext interface should contain required fields", () => {
   assertExists(gitContext.repositoryPath);
 });
 
+Deno.test("RepositoryInfo interface should contain path and identifier", () => {
+  const repositoryInfo: RepositoryInfo = {
+    path: "/Users/dev/project",
+    identifier: "/Users/dev/project",
+  };
+
+  assertEquals(repositoryInfo.path, "/Users/dev/project");
+  assertEquals(repositoryInfo.identifier, "/Users/dev/project");
+  assertExists(repositoryInfo.path);
+  assertExists(repositoryInfo.identifier);
+});
+
 Deno.test("WorkNote interface should contain user message and git context", () => {
   const workNote: WorkNote = {
     id: "note-123",
@@ -48,6 +61,10 @@ Deno.test("WorkNote interface should contain user message and git context", () =
       },
       repositoryPath: "/Users/dev/project",
     },
+    repositoryInfo: {
+      path: "/Users/dev/project",
+      identifier: "/Users/dev/project",
+    },
     aiInterpretation: undefined,
   };
 
@@ -57,6 +74,8 @@ Deno.test("WorkNote interface should contain user message and git context", () =
   );
   assertEquals(workNote.gitContext.currentBranch, "feature/auth-improvements");
   assertEquals(workNote.aiInterpretation, undefined);
+  assertEquals(workNote.repositoryInfo.path, "/Users/dev/project");
+  assertEquals(workNote.repositoryInfo.identifier, "/Users/dev/project");
   assertExists(workNote.id);
   assertExists(workNote.timestamp);
 });
@@ -123,6 +142,10 @@ Deno.test("WorkNote with AIInterpretation should be complete context", () => {
         untracked: [],
       },
       repositoryPath: "/Users/dev/project",
+    },
+    repositoryInfo: {
+      path: "/Users/dev/project",
+      identifier: "/Users/dev/project",
     },
     aiInterpretation: {
       summary: "Refactoring user service to improve maintainability",

@@ -1,6 +1,6 @@
 import { assertEquals, assertExists, assertRejects } from "@std/assert";
 import { Storage } from "../src/storage/database.ts";
-import type { WorkNote } from "../src/storage/models.ts";
+import type { RepositoryInfo, WorkNote } from "../src/storage/models.ts";
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
 
@@ -8,6 +8,14 @@ import { join } from "@std/path";
 const TEST_STORAGE_PATH = "./test-storage";
 const _TEST_CONFIG_PATH = join(TEST_STORAGE_PATH, "config.json");
 const TEST_DATA_PATH = join(TEST_STORAGE_PATH, "contexts.json");
+
+// Helper function to create repository info
+function createRepositoryInfo(path: string = "/test/repo"): RepositoryInfo {
+  return {
+    path,
+    identifier: path,
+  };
+}
 
 // Clean up test storage before and after tests
 async function cleanupTestStorage() {
@@ -54,6 +62,7 @@ Deno.test("Storage should save and retrieve work notes", async () => {
       },
       repositoryPath: "/test/repo",
     },
+    repositoryInfo: createRepositoryInfo("/test/repo"),
   };
 
   await storage.saveWorkNote(workNote);
@@ -94,6 +103,7 @@ Deno.test("Storage should get latest work note", async () => {
       workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
       repositoryPath: "/test",
     },
+    repositoryInfo: createRepositoryInfo("/test"),
   };
 
   const note2: WorkNote = {
@@ -106,6 +116,7 @@ Deno.test("Storage should get latest work note", async () => {
       workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
       repositoryPath: "/test",
     },
+    repositoryInfo: createRepositoryInfo("/test"),
   };
 
   await storage.saveWorkNote(note1);
@@ -148,6 +159,7 @@ Deno.test("Storage should get recent work notes with limit", async () => {
         workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
         repositoryPath: "/test",
       },
+      repositoryInfo: createRepositoryInfo("/test"),
     };
     await storage.saveWorkNote(note);
   }
@@ -222,6 +234,7 @@ Deno.test("Storage should handle concurrent access safely", async () => {
         workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
         repositoryPath: "/test",
       },
+      repositoryInfo: createRepositoryInfo("/test"),
     };
     promises.push(storage.saveWorkNote(note));
   }
@@ -267,6 +280,7 @@ Deno.test("Storage should handle corrupted data files gracefully", async () => {
       workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
       repositoryPath: "/test",
     },
+    repositoryInfo: createRepositoryInfo("/test"),
   };
 
   await storage.saveWorkNote(workNote);
