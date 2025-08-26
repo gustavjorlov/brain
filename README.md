@@ -2,6 +2,8 @@
 
 **Context management for developers with busy family lives.**
 
+🌐 **[Visit the Brain CLI Website](https://gustavjorlov.github.io/brain/)**
+
 Brain CLI solves the context-switching problem by capturing your current
 thoughts along with git activity, using AI to interpret the technical context,
 and helping you seamlessly resume where you left off—even hours or days later.
