@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "tasks": {
     "dev": "deno run --allow-all src/main.ts",
     "test": "deno test --allow-all tests/",
