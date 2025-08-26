@@ -114,13 +114,13 @@ Deno.test("GitAnalyzer.getWorkingDirectoryChanges should parse git status output
   assertEquals(changes.untracked, ["debug.log", "temp.txt"]);
 });
 
-Deno.test("GitAnalyzer.getRepositoryPath should return current working directory", async () => {
+Deno.test("GitAnalyzer.getRepositoryPath should return repository root path", async () => {
   const analyzer = new GitAnalyzer();
 
   analyzer.runCommand = (command: string[]) => {
-    if (command.includes("rev-parse")) {
+    if (command.includes("--show-toplevel")) {
       return Promise.resolve({
-        stdout: "/Users/dev/project/.git\n",
+        stdout: "/Users/dev/project\n",
         stderr: "",
         success: true,
       });
@@ -160,9 +160,9 @@ Deno.test("GitAnalyzer.analyze should combine all git information", async () => 
         success: true,
       });
     }
-    if (command.includes("rev-parse")) {
+    if (command.includes("--show-toplevel")) {
       return Promise.resolve({
-        stdout: "/Users/dev/project/.git\n",
+        stdout: "/Users/dev/project\n",
         stderr: "",
         success: true,
       });
@@ -240,4 +240,164 @@ Deno.test("GitAnalyzer should handle clean working directory", async () => {
   assertEquals(changes.staged, []);
   assertEquals(changes.unstaged, []);
   assertEquals(changes.untracked, []);
+});
+
+Deno.test("GitAnalyzer.getRepositoryRoot should get absolute repository root path", async () => {
+  const analyzer = new GitAnalyzer();
+
+  analyzer.runCommand = (command) => {
+    if (command.includes("--show-toplevel")) {
+      return Promise.resolve({
+        stdout: "/Users/dev/my-project\n",
+        stderr: "",
+        success: true,
+      });
+    }
+    throw new Error(`Unexpected command: ${command.join(" ")}`);
+  };
+
+  const root = await analyzer.getRepositoryRoot();
+  assertEquals(root, "/Users/dev/my-project");
+});
+
+Deno.test("GitAnalyzer.getRepositoryRoot should handle git command failure", async () => {
+  const analyzer = new GitAnalyzer();
+
+  analyzer.runCommand = () => {
+    return Promise.resolve({
+      stdout: "",
+      stderr: "fatal: not a git repository",
+      success: false,
+    });
+  };
+
+  await assertRejects(
+    () => analyzer.getRepositoryRoot(),
+    Error,
+    "Not a git repository",
+  );
+});
+
+Deno.test("GitAnalyzer.getRepositoryIdentifier should normalize repository path", async () => {
+  const analyzer = new GitAnalyzer();
+
+  analyzer.runCommand = (command) => {
+    if (command.includes("--show-toplevel")) {
+      return Promise.resolve({
+        stdout: "/Users/dev/my-project/\n", // Note trailing slash
+        stderr: "",
+        success: true,
+      });
+    }
+    throw new Error(`Unexpected command: ${command.join(" ")}`);
+  };
+
+  const identifier = await analyzer.getRepositoryIdentifier();
+  assertEquals(identifier, "/Users/dev/my-project"); // No trailing slash
+});
+
+Deno.test("GitAnalyzer.getRepositoryIdentifier should handle symlinks consistently", async () => {
+  const analyzer = new GitAnalyzer();
+
+  analyzer.runCommand = (command) => {
+    if (command.includes("--show-toplevel")) {
+      return Promise.resolve({
+        stdout: "/Users/dev/symlinked-project\n",
+        stderr: "",
+        success: true,
+      });
+    }
+    throw new Error(`Unexpected command: ${command.join(" ")}`);
+  };
+
+  const identifier = await analyzer.getRepositoryIdentifier();
+  assertEquals(identifier, "/Users/dev/symlinked-project");
+});
+
+Deno.test("GitAnalyzer should update analyze() to include enhanced repository info", async () => {
+  const analyzer = new GitAnalyzer();
+
+  let commandCount = 0;
+  analyzer.runCommand = (command: string[]) => {
+    commandCount++;
+
+    if (
+      command.includes("--show-current") || command.includes("symbolic-ref")
+    ) {
+      return Promise.resolve({
+        stdout: "feature/enhanced-repo\n",
+        stderr: "",
+        success: true,
+      });
+    }
+
+    if (command.includes("log")) {
+      return Promise.resolve({
+        stdout:
+          "abc123§Fix repository identification§2025-01-15 10:30:00 +0000§John Doe§src/git/analyzer.ts\n",
+        stderr: "",
+        success: true,
+      });
+    }
+
+    if (command.includes("status")) {
+      return Promise.resolve({
+        stdout: "M  src/git/analyzer.ts\n?? tests/new-test.ts\n",
+        stderr: "",
+        success: true,
+      });
+    }
+
+    if (command.includes("--show-toplevel")) {
+      return Promise.resolve({
+        stdout: "/Users/dev/enhanced-project\n",
+        stderr: "",
+        success: true,
+      });
+    }
+
+    return Promise.resolve({ stdout: "", stderr: "", success: false });
+  };
+
+  const context = await analyzer.analyze(5);
+
+  assertEquals(context.currentBranch, "feature/enhanced-repo");
+  assertEquals(context.repositoryPath, "/Users/dev/enhanced-project");
+  assertEquals(context.recentCommits.length, 1);
+  assertEquals(
+    context.recentCommits[0].message,
+    "Fix repository identification",
+  );
+});
+
+Deno.test("GitAnalyzer should handle repository path edge cases", async () => {
+  const analyzer = new GitAnalyzer();
+
+  // Test with various path formats
+  const testCases = [
+    { input: "/Users/dev/project\n", expected: "/Users/dev/project" },
+    { input: "/Users/dev/project/\n", expected: "/Users/dev/project" },
+    { input: "/Users/dev/project\n\n", expected: "/Users/dev/project" },
+    { input: "  /Users/dev/project  \n", expected: "/Users/dev/project" },
+  ];
+
+  for (const testCase of testCases) {
+    analyzer.runCommand = (command) => {
+      if (command.includes("--show-toplevel")) {
+        return Promise.resolve({
+          stdout: testCase.input,
+          stderr: "",
+          success: true,
+        });
+      }
+      throw new Error(`Unexpected command: ${command.join(" ")}`);
+    };
+
+    const identifier = await analyzer.getRepositoryIdentifier();
+    assertEquals(
+      identifier,
+      testCase.expected,
+      `Failed for input: ${JSON.stringify(testCase.input)}`,
+    );
+  }
 });

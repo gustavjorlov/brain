@@ -164,26 +164,26 @@ export class GitAnalyzer {
     return { staged, unstaged, untracked };
   }
 
-  async getRepositoryPath(): Promise<string> {
-    const result = await this.runCommand(["rev-parse", "--git-dir"]);
+  async getRepositoryRoot(): Promise<string> {
+    const result = await this.runCommand(["rev-parse", "--show-toplevel"]);
 
     if (!result.success) {
       throw new Error(`Not a git repository: ${result.stderr}`);
     }
 
-    const gitDir = result.stdout.trim();
+    // Normalize path: trim whitespace and remove trailing slashes
+    const path = result.stdout.trim().replace(/\/+$/, "");
+    return path;
+  }
 
-    // If it's just ".git", we're in the root of the repo
-    if (gitDir === ".git") {
-      return Deno.cwd();
-    }
+  async getRepositoryIdentifier(): Promise<string> {
+    // For now, use the normalized repository root path as identifier
+    return await this.getRepositoryRoot();
+  }
 
-    // If it's an absolute path ending with .git, return parent directory
-    if (gitDir.endsWith(".git")) {
-      return gitDir.slice(0, -5); // Remove "/.git" suffix
-    }
-
-    return gitDir;
+  async getRepositoryPath(): Promise<string> {
+    // Keep this method for backward compatibility, but use the enhanced version
+    return await this.getRepositoryRoot();
   }
 
   async analyze(maxCommits: number = 10): Promise<GitContext> {
@@ -196,7 +196,7 @@ export class GitAnalyzer {
       this.getCurrentBranch(),
       this.getRecentCommits(maxCommits),
       this.getWorkingDirectoryChanges(),
-      this.getRepositoryPath(),
+      this.getRepositoryRoot(),
     ]);
 
     return {

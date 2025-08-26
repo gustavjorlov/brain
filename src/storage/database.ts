@@ -60,6 +60,13 @@ export class Storage {
     try {
       const dataText = await Deno.readTextFile(this.dataPath);
       this.data = JSON.parse(dataText);
+
+      // Check if migration is needed and perform it
+      const migrationNeeded = this.checkMigrationNeeded();
+      if (migrationNeeded) {
+        this.performMigration();
+        await this.saveData(); // Save migrated data
+      }
     } catch {
       // Create empty data structure if file doesn't exist or is corrupted
       this.data = { workNotes: {} };
@@ -72,6 +79,49 @@ export class Storage {
       this.dataPath,
       JSON.stringify(this.data, null, 2),
     );
+  }
+
+  private checkMigrationNeeded(): boolean {
+    // Check if any work notes lack repositoryInfo
+    return Object.values(this.data.workNotes).some((note) =>
+      !(note as unknown as { repositoryInfo?: unknown }).repositoryInfo
+    );
+  }
+
+  private performMigration(): void {
+    const workNotes = this.data.workNotes;
+    let migratedCount = 0;
+
+    for (const [_id, note] of Object.entries(workNotes)) {
+      const typedNote = note as unknown as {
+        repositoryInfo?: { path: string; identifier: string };
+        gitContext?: { repositoryPath?: string };
+      };
+
+      // Skip notes that already have repositoryInfo
+      if (typedNote.repositoryInfo) {
+        continue;
+      }
+
+      // Add repositoryInfo based on gitContext.repositoryPath
+      let repositoryPath = "unknown";
+      if (typedNote.gitContext?.repositoryPath) {
+        repositoryPath = typedNote.gitContext.repositoryPath;
+      }
+
+      typedNote.repositoryInfo = {
+        path: repositoryPath,
+        identifier: repositoryPath,
+      };
+
+      migratedCount++;
+    }
+
+    if (migratedCount > 0) {
+      console.log(
+        `🔄 Migrated ${migratedCount} legacy context(s) to include repository information`,
+      );
+    }
   }
 
   getConfig(): BrainConfig {

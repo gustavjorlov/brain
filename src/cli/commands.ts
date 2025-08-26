@@ -38,8 +38,8 @@ const formatTimestamp = (timestamp: string): string => {
 };
 
 export class BrainCLI {
-  private storage: Storage;
-  private gitAnalyzer: GitAnalyzer;
+  public storage: Storage; // Public for testing
+  public gitAnalyzer: GitAnalyzer; // Public for testing
   private aiClient: AIClient | null = null;
 
   constructor(storagePath?: string) {
@@ -162,13 +162,30 @@ export class BrainCLI {
     options: { raw?: boolean; since?: string } = {},
   ): Promise<void> {
     try {
-      const latestNote = this.storage.getLatestWorkNote();
+      // Get current repository identifier for context filtering
+      let repositoryId: string | undefined;
+      try {
+        const currentGitContext = await this.gitAnalyzer.analyze(1);
+        repositoryId = currentGitContext.repositoryPath;
+      } catch {
+        // If not in a git repository, show all contexts (old behavior)
+        repositoryId = undefined;
+      }
+
+      const latestNote = this.storage.getLastWorkNote(repositoryId);
 
       if (!latestNote) {
-        console.log("📝 No previous context found");
-        console.log(
-          "   Use 'brain save \"your message\"' to capture your first context.",
-        );
+        if (repositoryId) {
+          console.log("📝 No previous context found for this repository");
+          console.log(
+            "   Use 'brain save \"your message\"' to capture your first context in this repository.",
+          );
+        } else {
+          console.log("📝 No previous context found");
+          console.log(
+            "   Use 'brain save \"your message\"' to capture your first context.",
+          );
+        }
         return;
       }
 
@@ -246,23 +263,36 @@ export class BrainCLI {
     }
   }
 
-  listCommand(
+  async listCommand(
     count = 5,
     options: { branch?: string } = {},
-  ): void {
+  ): Promise<void> {
     try {
+      // Get current repository identifier for context filtering
+      let repositoryId: string | undefined;
+      try {
+        const currentGitContext = await this.gitAnalyzer.analyze(1);
+        repositoryId = currentGitContext.repositoryPath;
+      } catch {
+        // If not in a git repository, show all contexts (old behavior)
+        repositoryId = undefined;
+      }
+
       let notes: WorkNote[];
 
       if (options.branch) {
+        // Branch filtering doesn't use repository filtering yet, but could be enhanced
         notes = this.storage.getWorkNotesByBranch(options.branch);
         notes = notes.slice(0, count);
       } else {
-        notes = this.storage.getRecentWorkNotes(count);
+        notes = this.storage.getRecentWorkNotes(count, repositoryId);
       }
 
       if (notes.length === 0) {
         if (options.branch) {
           console.log(`📝 No contexts found for branch: ${options.branch}`);
+        } else if (repositoryId) {
+          console.log("📝 No contexts found for this repository");
         } else {
           console.log("📝 No contexts found");
         }
