@@ -47,24 +47,25 @@ function createMockedBrainCLI(
   const brain = new BrainCLI(TEST_STORAGE_E2E);
 
   // Mock git analyzer to return specific repository context
-  brain.gitAnalyzer.analyze = () => Promise.resolve({
-    currentBranch: branch,
-    recentCommits: [
-      {
-        hash: "abc123",
-        message: `Recent work in ${repositoryPath}`,
-        timestamp: new Date().toISOString(),
-        author: "Developer",
-        filesChanged: ["src/main.ts"],
+  brain.gitAnalyzer.analyze = () =>
+    Promise.resolve({
+      currentBranch: branch,
+      recentCommits: [
+        {
+          hash: "abc123",
+          message: `Recent work in ${repositoryPath}`,
+          timestamp: new Date().toISOString(),
+          author: "Developer",
+          filesChanged: ["src/main.ts"],
+        },
+      ],
+      workingDirectoryChanges: {
+        staged: [],
+        unstaged: ["src/main.ts"],
+        untracked: [],
       },
-    ],
-    workingDirectoryChanges: {
-      staged: [],
-      unstaged: ["src/main.ts"],
-      untracked: [],
-    },
-    repositoryPath,
-  });
+      repositoryPath,
+    });
 
   return brain;
 }

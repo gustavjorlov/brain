@@ -59,12 +59,13 @@ Deno.test("CLI resumeCommand should filter contexts by current repository", asyn
   await brain.initialize();
 
   // Mock git analyzer to return specific repository
-  brain.gitAnalyzer.analyze = () => Promise.resolve({
-    currentBranch: "main",
-    recentCommits: [],
-    workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
-    repositoryPath: "/Users/dev/project-a",
-  });
+  brain.gitAnalyzer.analyze = () =>
+    Promise.resolve({
+      currentBranch: "main",
+      recentCommits: [],
+      workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
+      repositoryPath: "/Users/dev/project-a",
+    });
 
   // Add contexts from different repositories
   const contextA = createTestWorkNote(
@@ -113,12 +114,13 @@ Deno.test("CLI listCommand should filter contexts by current repository", async 
   await brain.initialize();
 
   // Mock git analyzer to return specific repository
-  brain.gitAnalyzer.analyze = () => Promise.resolve({
-    currentBranch: "main",
-    recentCommits: [],
-    workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
-    repositoryPath: "/Users/dev/project-b",
-  });
+  brain.gitAnalyzer.analyze = () =>
+    Promise.resolve({
+      currentBranch: "main",
+      recentCommits: [],
+      workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
+      repositoryPath: "/Users/dev/project-b",
+    });
 
   // Add multiple contexts from different repositories
   const contexts = [
@@ -185,12 +187,13 @@ Deno.test("CLI should show appropriate messages when no contexts found for repos
   await brain.initialize();
 
   // Mock git analyzer to return specific repository
-  brain.gitAnalyzer.analyze = () => Promise.resolve({
-    currentBranch: "main",
-    recentCommits: [],
-    workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
-    repositoryPath: "/Users/dev/empty-project",
-  });
+  brain.gitAnalyzer.analyze = () =>
+    Promise.resolve({
+      currentBranch: "main",
+      recentCommits: [],
+      workingDirectoryChanges: { staged: [], unstaged: [], untracked: [] },
+      repositoryPath: "/Users/dev/empty-project",
+    });
 
   // Add a context from different repository
   const contextOther = createTestWorkNote(
