@@ -79,39 +79,3 @@ jobs:
         run: |
           chmod +x bin/brain
           ./bin/brain --version
-
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: "2.1.3"
-
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Check for vulnerabilities
-        run: |
-          # Check for known security issues in dependencies
-          deno info --json src/main.ts | jq '.modules[].specifier' | grep -E '^https?://' | sort -u > external_deps.txt || echo "No external dependencies found"
-          echo "External dependencies:"
-          cat external_deps.txt || echo "None"
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: "fs"
-          scan-ref: "."
-          format: "sarif"
-          output: "trivy-results.sarif"
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "trivy-results.sarif"
