@@ -17,11 +17,6 @@ class TerminalDemo {
       },
       {
         prompt: "$ ",
-        command: "cd ~/work && git checkout feature/payment-flow",
-        output: ['Switched to branch "feature/payment-flow"'],
-      },
-      {
-        prompt: "$ ",
         command: "brain resume",
         output: [
           "🧠 Last saved: 2 hours ago on main",
