@@ -28,12 +28,7 @@
 
 /* Base Styles */
 body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background);
@@ -53,21 +48,21 @@ body {
 
 /* Main Grid Layout */
 .main-grid {
-  padding: 4rem 0;
+  padding: 2rem 0;
   background: var(--background);
 }
 
 .grid-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: start;
 }
 
 .left-column {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .right-column {
@@ -121,12 +116,14 @@ body {
 
 .hero-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
   align-items: center;
+  justify-content: center;
 }
 
-.primary-button, .secondary-button {
+.primary-button,
+.secondary-button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -373,10 +370,12 @@ body {
 }
 
 @keyframes blink {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+  51%,
+  100% {
     opacity: 0;
   }
 }
@@ -613,11 +612,6 @@ body {
   color: var(--text-secondary);
   font-size: 0.9rem;
   margin-top: 0.5rem;
-}
-
-/* Demo Section */
-.demo {
-  margin-top: 1rem;
 }
 
 /* Installation Section */
