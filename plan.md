@@ -304,9 +304,11 @@ Perfect! "brain" is much more concise and intuitive -
 
 ## Phase 6: Repository Context Isolation
 
-**Issue**: Context leakage between different repositories - `brain resume` shows contexts from all repos instead of just the current one.
+**Issue**: Context leakage between different repositories - `brain resume` shows
+contexts from all repos instead of just the current one.
 
-**Strategy**: Use repository path-based identification (Option 1) for robust, unique identification.
+**Strategy**: Use repository path-based identification (Option 1) for robust,
+unique identification.
 
 **17. Repository-Aware Data Models**
 
@@ -315,8 +317,8 @@ Update core interfaces to include repository identification:
 ```typescript
 // src/storage/models.ts updates
 interface RepositoryInfo {
-  path: string;              // Absolute repository root path  
-  identifier: string;        // Computed unique identifier (normalized path)
+  path: string; // Absolute repository root path
+  identifier: string; // Computed unique identifier (normalized path)
 }
 
 interface WorkNote {
@@ -324,7 +326,7 @@ interface WorkNote {
   message: string;
   timestamp: string;
   gitContext: GitContext;
-  repositoryInfo: RepositoryInfo;  // NEW FIELD
+  repositoryInfo: RepositoryInfo; // NEW FIELD
   aiInterpretation?: AIInterpretation;
 }
 ```
@@ -336,6 +338,7 @@ touch tests/storage-repo-isolation.test.ts
 ```
 
 Critical test scenarios:
+
 - Save contexts from different repository paths
 - Retrieve contexts filtered by current repository only
 - Cross-repo isolation (repo A contexts don't appear in repo B)
@@ -350,8 +353,9 @@ Critical test scenarios:
 ```
 
 Add repository identification methods:
+
 - `getRepositoryRoot()`: Get absolute path to repository root
-- `getRepositoryIdentifier()`: Compute unique repo identifier  
+- `getRepositoryIdentifier()`: Compute unique repo identifier
 - Update `analyze()` to include repository info
 
 **20. Repository-Aware Storage Layer**
@@ -361,6 +365,7 @@ Add repository identification methods:
 ```
 
 Enhanced storage methods:
+
 - `getRecentWorkNotes(limit: number, repositoryId?: string): WorkNote[]`
 - `getLastWorkNote(repositoryId?: string): WorkNote | null`
 - `getWorkNotesByRepository(repositoryId: string): WorkNote[]`
@@ -373,8 +378,9 @@ touch tests/cli-repo-integration.test.ts
 ```
 
 End-to-end repository isolation tests:
+
 - `brain save` in different repositories
-- `brain resume` shows only current repo contexts  
+- `brain resume` shows only current repo contexts
 - `brain list` filters by current repository
 - Switching between repos maintains proper isolation
 - Migration messages for existing data
@@ -382,8 +388,9 @@ End-to-end repository isolation tests:
 **22. Data Migration Strategy**
 
 Handle backward compatibility:
+
 1. Detect contexts without repository info
-2. Attempt to infer repository from existing `repositoryPath` 
+2. Attempt to infer repository from existing `repositoryPath`
 3. Mark legacy contexts with computed repository identifier
 4. Provide migration status/warnings to user
 

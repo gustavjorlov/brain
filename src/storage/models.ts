@@ -24,8 +24,8 @@ export interface GitContext {
 }
 
 export interface RepositoryInfo {
-  path: string;              // Absolute repository root path  
-  identifier: string;        // Computed unique identifier (normalized path)
+  path: string; // Absolute repository root path
+  identifier: string; // Computed unique identifier (normalized path)
 }
 
 export interface AIInterpretation {

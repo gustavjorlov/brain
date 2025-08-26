@@ -1,7 +1,11 @@
 import { GitAnalyzer } from "../git/analyzer.ts";
 import { Storage } from "../storage/database.ts";
 import { AIClient } from "../ai/client.ts";
-import type { BrainConfig, RepositoryInfo, WorkNote } from "../storage/models.ts";
+import type {
+  BrainConfig,
+  RepositoryInfo,
+  WorkNote,
+} from "../storage/models.ts";
 import { join } from "@std/path";
 
 // Default storage path
@@ -79,13 +83,13 @@ export class BrainCLI {
       console.log("🧠 Analyzing current context...");
 
       const timestamp = new Date().toISOString();
-      
+
       // Create repository info from git context
       const repositoryInfo: RepositoryInfo = {
         path: gitContext.repositoryPath,
         identifier: gitContext.repositoryPath,
       };
-      
+
       const workNote: WorkNote = {
         id: generateId(),
         message,

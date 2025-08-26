@@ -115,8 +115,15 @@ export class Storage {
     return { ...workNotes[0] };
   }
 
-  getRecentWorkNotes(limit: number = 5): WorkNote[] {
-    const workNotes = Object.values(this.data.workNotes);
+  getRecentWorkNotes(limit: number = 5, repositoryId?: string): WorkNote[] {
+    let workNotes = Object.values(this.data.workNotes);
+
+    // Filter by repository if specified
+    if (repositoryId) {
+      workNotes = workNotes.filter((note) =>
+        note.repositoryInfo?.identifier === repositoryId
+      );
+    }
 
     if (workNotes.length === 0) {
       return [];
@@ -139,6 +146,44 @@ export class Storage {
     );
 
     return workNotes.map((note) => ({ ...note }));
+  }
+
+  getWorkNotesByRepository(repositoryId: string): WorkNote[] {
+    const workNotes = Object.values(this.data.workNotes);
+
+    // Filter by repository identifier
+    const filteredNotes = workNotes.filter((note) =>
+      note.repositoryInfo?.identifier === repositoryId
+    );
+
+    // Sort by timestamp (newest first)
+    filteredNotes.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    return filteredNotes.map((note) => ({ ...note }));
+  }
+
+  getLastWorkNote(repositoryId?: string): WorkNote | null {
+    let workNotes = Object.values(this.data.workNotes);
+
+    // Filter by repository if specified
+    if (repositoryId) {
+      workNotes = workNotes.filter((note) =>
+        note.repositoryInfo?.identifier === repositoryId
+      );
+    }
+
+    if (workNotes.length === 0) {
+      return null;
+    }
+
+    // Sort by timestamp (newest first)
+    workNotes.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    return { ...workNotes[0] };
   }
 
   async deleteWorkNote(id: string): Promise<boolean> {
