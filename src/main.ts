@@ -11,7 +11,28 @@
 import { parseArgs } from "@std/cli";
 import { BrainCLI } from "./cli/commands.ts";
 
-const VERSION = "0.1.0";
+// Read version from deno.json
+async function getVersion(): Promise<string> {
+  try {
+    // First try to find deno.json relative to the current working directory
+    try {
+      const denoConfig = await Deno.readTextFile("deno.json");
+      const config = JSON.parse(denoConfig);
+      if (config.version) return config.version;
+    } catch {
+      // If that fails, try relative to the source file location
+      const denoConfigPath = new URL("../deno.json", import.meta.url);
+      const denoConfig = await Deno.readTextFile(denoConfigPath);
+      const config = JSON.parse(denoConfig);
+      if (config.version) return config.version;
+    }
+    return "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+const VERSION = await getVersion();
 
 function showHelp() {
   console.log(`🧠 Brain CLI v${VERSION} - Context management for developers

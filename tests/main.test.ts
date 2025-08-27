@@ -25,7 +25,7 @@ Deno.test("CLI shows help with --help flag", async () => {
   const result = await runCLI(["--help"]);
 
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
+  assertStringIncludes(result.stdout, "Brain CLI v2.0.1");
   assertStringIncludes(result.stdout, "USAGE:");
   assertStringIncludes(result.stdout, "COMMANDS:");
   assertStringIncludes(result.stdout, "save <message>");
@@ -43,7 +43,7 @@ Deno.test("CLI shows help with -h flag", async () => {
   const result = await runCLI(["-h"]);
 
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
+  assertStringIncludes(result.stdout, "Brain CLI v2.0.1");
   assertStringIncludes(result.stdout, "USAGE:");
 });
 
@@ -51,15 +51,15 @@ Deno.test("CLI shows version with --version flag", async () => {
   const result = await runCLI(["--version"]);
 
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
-  assertEquals(result.stdout.trim(), "Brain CLI v0.1.0");
+  assertStringIncludes(result.stdout, "Brain CLI v2.0.1");
+  assertEquals(result.stdout.trim(), "Brain CLI v2.0.1");
 });
 
 Deno.test("CLI shows version with -v flag", async () => {
   const result = await runCLI(["-v"]);
 
   assertEquals(result.success, true);
-  assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
+  assertStringIncludes(result.stdout, "Brain CLI v2.0.1");
 });
 
 Deno.test("CLI shows error and help when no command provided", async () => {
@@ -67,7 +67,7 @@ Deno.test("CLI shows error and help when no command provided", async () => {
 
   assertEquals(result.success, false);
   assertStringIncludes(result.stderr, "❌ No command provided");
-  assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
+  assertStringIncludes(result.stdout, "Brain CLI v2.0.1");
   assertStringIncludes(result.stdout, "USAGE:");
 });
 
@@ -76,7 +76,7 @@ Deno.test("CLI shows error for unknown command", async () => {
 
   assertEquals(result.success, false);
   assertStringIncludes(result.stderr, "❌ Unknown command: unknown");
-  assertStringIncludes(result.stdout, "Brain CLI v0.1.0");
+  assertStringIncludes(result.stdout, "Brain CLI v2.0.1");
 });
 
 Deno.test("CLI executes save command successfully", async () => {
