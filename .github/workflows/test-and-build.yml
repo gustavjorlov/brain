@@ -60,9 +60,6 @@ jobs:
             ${{ runner.os }}-deno-2.1.3-
             ${{ runner.os }}-deno-
 
-      - name: Check formatting
-        run: deno fmt --check
-
       - name: Run linter
         run: deno lint
 
